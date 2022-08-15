@@ -1,10 +1,10 @@
 package tech.empresta.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import tech.empresta.backend.role.Role;
 
 import javax.persistence.*;
@@ -17,18 +17,19 @@ import java.util.Collection;
  * @project empresta.tech
  */
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
+@ToString
 @Table(
         name = "tb_user",
         uniqueConstraints = {
                 @UniqueConstraint(name = "name_email_unique", columnNames = "email")
         }
 )
-public class User {
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -51,6 +52,10 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
+    private Boolean locked = false;
+
+    private Boolean enabled = false;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", length = 64, nullable = false)
     private String password;
@@ -61,4 +66,47 @@ public class User {
     //        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "roles_id"))
     private Collection<Role> roles = new ArrayList<>();
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        this.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public User(String alias, String name, String email, String password, Collection<Role> roles) {
+        this.alias = alias;
+        this.name = name;
+        this.email = email;
+        this.locked = locked;
+        this.enabled = enabled;
+        this.password = password;
+        this.roles = roles;
+    }
 }

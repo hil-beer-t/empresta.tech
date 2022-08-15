@@ -14,9 +14,11 @@ public interface UserService {
     Role saveRole(Role role);
     void addRoleToUser(String email, String roleName);
     User getUser(String username);
-
     User getUserById(Long id);
 
     // TODO: paginate
     List<User> getUsers();
+    String signUpUser(User user);
+    int enableUser(String email);
+    void resendEmail(User user, String token);
 }

@@ -1,4 +1,4 @@
-package tech.empresta.backend.api;
+package tech.empresta.backend.api._Private;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

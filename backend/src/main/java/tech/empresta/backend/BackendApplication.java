@@ -4,10 +4,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tech.empresta.backend.role.Role;
@@ -37,10 +33,11 @@ public class BackendApplication {
 			userService.saveRole(new Role(null, "ROLE_AUDITOR"));
 			userService.saveRole(new Role(null, "ROLE_CSC"));
 
-			userService.saveUser(new User(null, "John","John Plink", "elias@gmail.com", "123321", new ArrayList<Role>()));
-			userService.saveUser(new User(null, "JohnS","John Sand", "sand@gmail.com", "123321", new ArrayList<Role>()));
-			userService.saveUser(new User(null, "JohnC","John Craw", "craw@gmail.com", "123321", new ArrayList<Role>()));
-			userService.saveUser(new User(null, "JohnQ","John Queue", "queue@gmail.com", "123321", new ArrayList<Role>()));
+			userService.saveUser(new User( "JohnQ","John Queue", "elias@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnD","John Queue", "sand@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnF","John Queue", "craw@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnAS","John Queue", "queue@gmail.com", "123321", new ArrayList<>()));
+
 
 			userService.addRoleToUser("elias@gmail.com", "ROLE_USER");
 			userService.addRoleToUser("sand@gmail.com", "ROLE_ADMIN");

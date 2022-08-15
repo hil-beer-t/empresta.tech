@@ -1,178 +1,93 @@
-package tech.empresta.backend.user;
+package tech.empresta.backend.signup;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tech.empresta.backend.email.EmailSender;
 import tech.empresta.backend.role.Role;
 import tech.empresta.backend.role.RoleRepository;
 import tech.empresta.backend.signup.token.ConfirmationToken;
 import tech.empresta.backend.signup.token.ConfirmationTokenService;
+import tech.empresta.backend.user.User;
+import tech.empresta.backend.user.UserService;
+import tech.empresta.backend.utils.EmailValidator;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 
 /**
- * @author Hilbert Digenio ON 11/08/2022
+ * @author Hilbert Digenio ON 18/08/2022
  * @version 0.0.1-SNAPSHOT
  * @project empresta.tech
  */
 
-@Service @RequiredArgsConstructor @Transactional @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+@Getter
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Service
+public class SignUpService {
 
-    private final UserRepository userRepo;
-    private final RoleRepository roleRepo;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
     private final ConfirmationTokenService confirmationTokenService;
+    private final EmailValidator emailValidator;
     private final EmailSender emailSender;
 
+    public String register(SignUpRequest request){
 
-    // Tells spring how to find the user
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        boolean isValidEmail = emailValidator.test(request.getEmail());
+        if (!isValidEmail) throw new IllegalStateException("Email not valid");
 
-        User user = userRepo.findByEmail(email);
-        if(user == null){
-            log.error("User not found in the database");
-            throw new UsernameNotFoundException("User not found in the database");
-        } else if (!user.isEnabled()) {
-            log.error("User found in database and is not enabled. Checking token");
-            signUpUser(user);
-            throw new DisabledException("User is not enabled. Check email.");
-        } else {
-            log.info("User found in the database: {}, and is enabled", email);
-        }
+        Collection<Role> roles = new ArrayList<>();
 
-        // for every role grants a SimpleGrantedAuthority
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        String token = userService.signUpUser(
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
-    }
-
-    public String signUpUser(User user){
-        User testingUser = userRepo.findByEmail(user.getEmail());
-
-        if (testingUser != null) {
-            log.info("User found in database. Checking token");
-            boolean isExpired =
-                    confirmationTokenService.getTokenByUser(user).getExpiresAt().isBefore(LocalDateTime.now());
-
-            if (isExpired){
-                log.info("Token expired");
-                // TODO: extract create token
-                // --------------- extract ------------------------
-                String token = UUID.randomUUID().toString();
-                ConfirmationToken confirmationToken = new ConfirmationToken(
-                        token,
-                        LocalDateTime.now(),
-                        LocalDateTime.now().plusMinutes(15),
-                        user
-                );
-                // --------------- extract ------------------------
-
-                confirmationTokenService.saveConfirmationToken(
-                        confirmationToken
-                );
-
-                this.resendEmail(user, token);
-
-                return token;
-
-            } else {
-                log.info("Token not expired. Check Email.");
-                return confirmationTokenService.getTokenByUser(user).getToken();
-            }
-
-        }
-
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userRepo.save(user);
-
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                user
-        );
-        confirmationTokenService.saveConfirmationToken(
-                confirmationToken
+                new User(
+                        request.getAlias(),
+                        request.getName(),
+                        request.getEmail(),
+                        request.getPassword(),
+                        roles
+                )
         );
 
-        return token;
-    }
-
-    public int enableUser(String email) {
-        return userRepo.enableUser(email);
-    }
-
-    @Override
-    public void resendEmail(User user, String token) {
         // token confirmation endpoint
         String link = "http://localhost:8080/signup/confirm?token="+token;
 
         emailSender.send(
-                user.getEmail(),
-                buildEmail(user.getName(), link));
+                request.getEmail(),
+                buildEmail(request.getName(), link));
+        return token;
     }
 
-    @Override
-    public User saveUser(User user) {
-        log.info("Saving new user to the database: {}", user.getName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
-    }
+    @Transactional
+    public String confirmToken(String token){
+        ConfirmationToken confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(() ->
+                        new IllegalStateException("token not found"));
 
-    @Override
-    public Role saveRole(Role role) {
-        log.info("Saving new role to the database: {}", role.getName());
-        return roleRepo.save(role);
-    }
+        if (confirmationToken.getConfirmedAt() != null){
+            throw new IllegalStateException("email already confirmed");
+        }
 
-    @Override
-    public void addRoleToUser(String email, String roleName) {
-        log.info("Saving role {} to {} owner", roleName, email);
-        User user = userRepo.findByEmail(email);
-        Role role = roleRepo.findByName(roleName);
-        user.getRoles().add(role);
-        // There is no need to save user -> @Transactional
-    }
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
-    @Override
-    public User getUser(String email) {
-        log.info("Fetching user {}", email);
-        return userRepo.findByEmail(email);
-    }
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
 
-    @Override
-    public User getUserById(Long id) {
-        log.info("Fetching user {}", id);
+        confirmationTokenService.setConfirmedAt(token);
+        userService.enableUser(
+                confirmationToken.getUser().getEmail()
+        );
 
-        // TODO: handle optional
-        User user = userRepo.findById(id).get();
-
-        return user;
-    }
-
-    @Override
-    public List<User> getUsers() {
-        log.info("Fetching users");
-        return userRepo.findAll();
+        return "confirmed";
     }
 
     private String buildEmail(String name, String link) {
@@ -243,6 +158,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 "\n" +
                 "</div></div>";
     }
-
-
 }
