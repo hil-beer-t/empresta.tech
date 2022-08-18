@@ -16,6 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import tech.empresta.backend.security.filter.CustomAuthenticationFilter;
 import tech.empresta.backend.security.filter.CustomAuthorizationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 /**
  * @author Hilbert Digenio ON 14/08/2022
  * @version 0.0.1-SNAPSHOT
@@ -38,13 +41,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/signup/**").permitAll().anyRequest().authenticated().and().formLogin();
+        http.authorizeRequests().antMatchers("/signup/**").permitAll();
+        http.authorizeRequests().antMatchers("/login/**").permitAll();
 
-//        http.authorizeRequests().antMatchers(GET, "/v*/private/users").hasAnyAuthority("ROLE_ADMIN");
-//        http.authorizeRequests().antMatchers(GET, "/v*/private/user/id/**")
-//                .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER");
-//        http.authorizeRequests().antMatchers(GET, "/v*/private/user/email/**")
-//                .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER");
+        http.authorizeRequests().antMatchers(GET, "/v*/private/users").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(POST, "/v*/private/create/user").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(POST, "/v*/private/update/user/**").hasAnyAuthority("ROLE_ADMIN");
+
+        // Em tese, qualquer pessoa com ROLE_USER poderia dar pegar informações dos outros usuários se souber o ID e
+        // EMAIL
+        http
+                .authorizeRequests()
+                .antMatchers(GET, "/v*/private/user/**")
+                .hasAnyAuthority(
+                        "ROLE_ADMIN", "ROLE_USER", "ROLE_AUDITOR", "ROLE_SCS", "ROLE_MANAGER");
 
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

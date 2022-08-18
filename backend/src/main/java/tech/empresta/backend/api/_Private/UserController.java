@@ -1,5 +1,6 @@
 package tech.empresta.backend.api._Private;
 
+import com.sun.source.tree.Tree;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,13 @@ import tech.empresta.backend.response.Response;
 import tech.empresta.backend.role.Role;
 import tech.empresta.backend.user.User;
 import tech.empresta.backend.user.UserDTO;
+import tech.empresta.backend.user.UserDTOupdate;
 import tech.empresta.backend.user.UserService;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Hilbert Digenio ON 11/08/2022
@@ -52,18 +55,20 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/user/username/{email}")
-    public ResponseEntity<Response<User>> getOneUserByUsername(@PathVariable("email") String email) {
+    @GetMapping("/user/username/{email}/{id}")
+    public ResponseEntity<Response<User>> getOneUserByUsernameAndId(@PathVariable("email") String email,
+                                                                    @PathVariable("id") Long id) {
 
         Response<User> response = new Response<>();
 
-        User user = userService.getUser(email);
+        User user = userService.getUserByEmailAndId(email,id);
 
         response.setData(user);
 
         return ResponseEntity.ok().body(response);
     }
 
+    // TODO: disable in production
     @PostMapping("/user/save")
     public ResponseEntity<Response<UserDTO>> saveUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
 
@@ -82,6 +87,50 @@ public class UserController {
 
 
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @PostMapping("/create/user")
+    public ResponseEntity<Response<UserDTO>> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+
+        Response<UserDTO> response = new Response<>();
+
+        if (result.hasErrors()){
+            result.getAllErrors().forEach( e -> response.getErrors().add(e.getDefaultMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        User user = userService.saveUser(toEntity(userDTO));
+
+        response.setData(toDto(user));
+
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/user").toUriString());
+
+        return ResponseEntity.created(uri).body(response);
+    }
+
+    @PutMapping("/update/user/{userId}")
+    public ResponseEntity<Response<User>> updateUser(
+            @PathVariable("userId") Long userId,
+            @RequestBody UserDTOupdate userDTOupdate, BindingResult result) {
+
+        Response<User> response = new Response<>();
+
+        if (result.hasErrors()){
+            result.getAllErrors().forEach( e -> response.getErrors().add(e.getDefaultMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        User user = userService.getUserById(userId);
+
+        userDTOupdate.setId(userId);
+        userDTOupdate.setEmail(user.getEmail());
+        userDTOupdate.setPassword(user.getPassword());
+
+        User userUpdated = userService.saveUser(toEntity(userDTOupdate));
+
+        response.setData(userUpdated);
+
+        return ResponseEntity.accepted().body(response);
     }
 
     @PostMapping("/role/save")
@@ -118,7 +167,12 @@ public class UserController {
     private UserDTO toDto(User user){
         return modelMapper.map(user, UserDTO.class);
     }
+    private UserDTOupdate toDtoUpdate(User user){
+        return modelMapper.map(user, UserDTOupdate.class);
+    }
     private User toEntity(UserDTO userDTO){
+        return modelMapper.map(userDTO, User.class);
+    }private User toEntity(UserDTOupdate userDTO){
         return modelMapper.map(userDTO, User.class);
     }
 

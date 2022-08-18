@@ -38,6 +38,10 @@ public class BackendApplication {
 			userService.saveUser(new User( "JohnF","John Queue", "craw@gmail.com", "123321", new ArrayList<>()));
 			userService.saveUser(new User( "JohnAS","John Queue", "queue@gmail.com", "123321", new ArrayList<>()));
 
+			userService.enableUser("elias@gmail.com");
+			userService.enableUser("sand@gmail.com");
+			userService.enableUser("craw@gmail.com");
+			userService.enableUser("queue@gmail.com");
 
 			userService.addRoleToUser("elias@gmail.com", "ROLE_USER");
 			userService.addRoleToUser("sand@gmail.com", "ROLE_ADMIN");

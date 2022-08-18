@@ -33,7 +33,6 @@ import java.util.Collection;
 public class SignUpService {
 
     private final UserService userService;
-    private final RoleRepository roleRepository;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailValidator emailValidator;
     private final EmailSender emailSender;
@@ -86,6 +85,8 @@ public class SignUpService {
         userService.enableUser(
                 confirmationToken.getUser().getEmail()
         );
+
+        userService.addRoleToUser(confirmationToken.getUser().getEmail(), "ROLE_USER");
 
         return "confirmed";
     }

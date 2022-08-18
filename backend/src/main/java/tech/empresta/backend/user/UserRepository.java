@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
-
+    User findByEmailAndId(String email, Long id);
     @Transactional
     @Modifying
     @Query("UPDATE User a " +

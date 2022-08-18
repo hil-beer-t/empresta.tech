@@ -2,6 +2,9 @@ package tech.empresta.backend.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -154,7 +157,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUser(String email) {
+    public User getUserByEmailAndId(String email, Long id) {
+        log.info("Fetching user {}", email);
+        return userRepo.findByEmailAndId(email, id);
+    }
+    @Override
+    public User getUserByEmail(String email) {
         log.info("Fetching user {}", email);
         return userRepo.findByEmail(email);
     }

@@ -67,8 +67,7 @@ public class User implements UserDetails {
     private Collection<Role> roles = new ArrayList<>();
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    public Collection<? extends GrantedAuthority> getAuthorities() {        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         this.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
@@ -101,6 +100,14 @@ public class User implements UserDetails {
     }
 
     public User(String alias, String name, String email, String password, Collection<Role> roles) {
+        this.alias = alias;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String alias, String name, String email, Boolean locked, Boolean enabled, String password, Collection<Role> roles) {
         this.alias = alias;
         this.name = name;
         this.email = email;

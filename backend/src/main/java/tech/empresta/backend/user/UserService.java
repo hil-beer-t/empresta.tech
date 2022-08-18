@@ -13,7 +13,8 @@ public interface UserService {
     User saveUser(User user);
     Role saveRole(Role role);
     void addRoleToUser(String email, String roleName);
-    User getUser(String username);
+    User getUserByEmailAndId(String email, Long id);
+    User getUserByEmail(String email);
     User getUserById(Long id);
 
     // TODO: paginate

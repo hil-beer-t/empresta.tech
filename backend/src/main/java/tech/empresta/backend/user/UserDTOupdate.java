@@ -23,20 +23,14 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserDTOupdate {
 
     private Long id;
 
-    @Size(max = 50, message = "Apelido deve conter no máximo 50 caracteres")
     private String alias;
 
-    @Size(min = 2, max = 255, message = "Nome deve conter entre 2 e 255 caracteres")
-    @NotBlank(message = "Nome do usuário não pode ser nulo/vazio")
     private String name;
 
-    @Size(min = 2, max = 255, message = "Email deve conter entre 2 e 255 caracteres")
-    @NotBlank(message = "Email do usuário não pode ser nulo/vazio")
-    @Email(message = "Email inválido")
     private String email;
 
     private Boolean locked = false;
@@ -44,8 +38,6 @@ public class UserDTO {
     private Boolean enabled = false;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Size(min = 6, max = 64, message = "A senha deve conter entre 6 e 64 caracteres")
-    @NotBlank(message = "Senha do usuário não pode ser nulo/vazio")
     private String password;
 
     private Collection<Role> roles = new ArrayList<>();
