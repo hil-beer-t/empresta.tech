@@ -1,6 +1,5 @@
 package tech.empresta.backend.api._Private;
 
-import com.sun.source.tree.Tree;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -19,7 +18,6 @@ import tech.empresta.backend.user.UserService;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Hilbert Digenio ON 11/08/2022

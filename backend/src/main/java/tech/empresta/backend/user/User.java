@@ -17,6 +17,7 @@ import java.util.Collection;
  * @project empresta.tech
  */
 
+// TODO: add cpf, rg, address and income
 @NoArgsConstructor
 @Getter
 @Setter

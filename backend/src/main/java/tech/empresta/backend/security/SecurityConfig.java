@@ -45,14 +45,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/login/**").permitAll();
 
         http.authorizeRequests().antMatchers(GET, "/v*/private/users").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(GET, "/v*/private/loans")
+            .hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER", "ROLE_AUDITOR");
+
         http.authorizeRequests().antMatchers(POST, "/v*/private/create/user").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(POST, "/v*/private/update/user/**").hasAnyAuthority("ROLE_ADMIN");
+
+        http.authorizeRequests().antMatchers(POST, "/v*/private/create/loan/**")
+                .hasAnyAuthority(
+                        "ROLE_ADMIN", "ROLE_USER", "ROLE_AUDITOR", "ROLE_SCS", "ROLE_MANAGER");
+
+        // TODO: user should not have rights to change some status
+        http.authorizeRequests().antMatchers(GET, "/v*/private/change/loan/status/**")
+                .hasAnyAuthority(
+                        "ROLE_ADMIN", "ROLE_USER", "ROLE_AUDITOR", "ROLE_SCS", "ROLE_MANAGER");
 
         // Em tese, qualquer pessoa com ROLE_USER poderia dar pegar informações dos outros usuários se souber o ID e
         // EMAIL
         http
                 .authorizeRequests()
                 .antMatchers(GET, "/v*/private/user/**")
+                .hasAnyAuthority(
+                        "ROLE_ADMIN", "ROLE_USER", "ROLE_AUDITOR", "ROLE_SCS", "ROLE_MANAGER");
+
+        http
+                .authorizeRequests()
+                .antMatchers(GET, "/v*/private/loan/**")
                 .hasAnyAuthority(
                         "ROLE_ADMIN", "ROLE_USER", "ROLE_AUDITOR", "ROLE_SCS", "ROLE_MANAGER");
 

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.empresta.backend.email.EmailSender;
 import tech.empresta.backend.role.Role;
-import tech.empresta.backend.role.RoleRepository;
 import tech.empresta.backend.signup.token.ConfirmationToken;
 import tech.empresta.backend.signup.token.ConfirmationTokenService;
 import tech.empresta.backend.user.User;

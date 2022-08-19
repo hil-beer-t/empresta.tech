@@ -6,10 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tech.empresta.backend.enums.LoanStatus;
+import tech.empresta.backend.loan.Loan;
+import tech.empresta.backend.loan.LoanService;
 import tech.empresta.backend.role.Role;
 import tech.empresta.backend.user.User;
 import tech.empresta.backend.user.UserService;
+import tech.empresta.backend.utils.GenerateLoanCod;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -25,7 +31,7 @@ public class BackendApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(UserService userService){
+	CommandLineRunner run(UserService userService, LoanService loanService){
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
 			userService.saveRole(new Role(null, "ROLE_ADMIN"));
@@ -33,7 +39,7 @@ public class BackendApplication {
 			userService.saveRole(new Role(null, "ROLE_AUDITOR"));
 			userService.saveRole(new Role(null, "ROLE_CSC"));
 
-			userService.saveUser(new User( "JohnQ","John Queue", "elias@gmail.com", "123321", new ArrayList<>()));
+			User u = userService.saveUser(new User( "JohnQ","John Queue", "elias@gmail.com", "123321", new ArrayList<>()));
 			userService.saveUser(new User( "JohnD","John Queue", "sand@gmail.com", "123321", new ArrayList<>()));
 			userService.saveUser(new User( "JohnF","John Queue", "craw@gmail.com", "123321", new ArrayList<>()));
 			userService.saveUser(new User( "JohnAS","John Queue", "queue@gmail.com", "123321", new ArrayList<>()));
@@ -48,6 +54,18 @@ public class BackendApplication {
 			userService.addRoleToUser("craw@gmail.com", "ROLE_MANAGER");
 			userService.addRoleToUser("craw@gmail.com", "ROLE_AUDITOR");
 			userService.addRoleToUser("queue@gmail.com", "ROLE_SAC");
+
+			loanService.saveLoan(new Loan(
+					GenerateLoanCod.generate(u.getId()),
+					LoanStatus.WAITING_FOR_AUDITING,
+					LocalDate.now(),
+					90,
+					90000L,
+					LocalDateTime.now(),
+					null,
+					u),u.getId()
+			);
+
 		};
 	}
 }
