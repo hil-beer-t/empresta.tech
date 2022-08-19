@@ -48,10 +48,16 @@ public class LoanController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+        User u = userService.getUserById(userId);
+        long numOfLoans = loanService.countLoanByUser(u);
+
+        // TODO: verify by loan status instead number of loans
+        // we want allow a creation of a loan, when the numOfLoans > 0 but with DENIED status
+        if (numOfLoans > 0) throw new IllegalStateException();
+
         loan.setCod(GenerateLoanCod.generate(userId));
         loan.setCreatedAt(LocalDateTime.now());
         loan.setConfirmedAt(null);
-        User u = userService.getUserById(userId);
         loan.setUser(u);
 
         response.setData(loanService.saveLoan(loan, userId));
