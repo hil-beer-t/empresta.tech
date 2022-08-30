@@ -4,6 +4,17 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+backend\src\main\resources
+backend\src\main\resources
+src\main\resources
+src/main/resources
+.\src\main\resources
+./src/main/resources
+\src\main\resources
+/src/main/resources
+./backend/src/main/resources
+.\backend\src\main\resources
+
 ### STS ###
 .apt_generated
 .classpath

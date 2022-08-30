@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'google_sans';
+  src: url('/assets/fonts/google-sans/ProductSans-Regular.ttf') format('truetype'),
+}
+
+.theme-app{
+  background: var(--white);
+  color: var(--background);
+}
+
+body {
+  background: var(--background);
+}
+
