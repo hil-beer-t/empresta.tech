@@ -1,4 +1,6 @@
 <body app-theme>
   <app-nav></app-nav>
-  <app-auth-modal></app-auth-modal>
+  <app-auth-modal
+    *ngIf="!(auth._isAuthenticatedWithDelay$ | async)"
+  ></app-auth-modal>
 </body>

@@ -39,10 +39,10 @@ public class BackendApplication {
 			userService.saveRole(new Role(null, "ROLE_AUDITOR"));
 			userService.saveRole(new Role(null, "ROLE_CSC"));
 
-			User u = userService.saveUser(new User( "JohnQ","John Queue", "elias@gmail.com", "123321", new ArrayList<>()));
-			userService.saveUser(new User( "JohnD","John Queue", "sand@gmail.com", "123321", new ArrayList<>()));
-			userService.saveUser(new User( "JohnF","John Queue", "craw@gmail.com", "123321", new ArrayList<>()));
-			userService.saveUser(new User( "JohnAS","John Queue", "queue@gmail.com", "123321", new ArrayList<>()));
+			User u = userService.saveUser(new User( "JohnQ","057.161.113-35","(86)99822-5381",53000L,"John Queue", "elias@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnD","057.161.113-32","(86)99822-5381",53000L,"John Queue", "sand@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnF","057.161.113-31","(86)99822-5381",53000L,"John Queue", "craw@gmail.com", "123321", new ArrayList<>()));
+			userService.saveUser(new User( "JohnAS","057.161.113-37","(86)99822-5381",53000L,"John Queue", "queue@gmail.com", "123321", new ArrayList<>()));
 
 			userService.enableUser("elias@gmail.com");
 			userService.enableUser("sand@gmail.com");

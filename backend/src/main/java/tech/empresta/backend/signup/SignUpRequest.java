@@ -17,6 +17,9 @@ import lombok.ToString;
 @ToString
 public class SignUpRequest {
     private final String alias;
+    private final String cpf;
+    private final String phoneNumber;
+    private final Long income;
     private final String name;
     private final String email;
     private final String password;

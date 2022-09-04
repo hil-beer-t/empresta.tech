@@ -47,6 +47,9 @@ public class SignUpService {
 
                 new User(
                         request.getAlias(),
+                        request.getCpf(),
+                        request.getPhoneNumber(),
+                        request.getIncome(),
                         request.getName(),
                         request.getEmail(),
                         request.getPassword(),

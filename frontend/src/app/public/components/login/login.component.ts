@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -22,17 +24,41 @@ export class LoginComponent implements OnInit {
 
   // --- alert properties ---
   showAlert = false
-  alertMsg = 'Please wait! Your account is being created'
+  alertMsg = ''
   alertColor = this.blue
   // --- alert properties ---
 
-  constructor() { }
+  constructor(private loginService: LoginService, public auth: AuthService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  login() {
+
+    this.showAlert = true;
+    this.alertMsg = 'Por favor, aguarde, estamos logando você.';
+    this.alertColor = this.blue;
+    this.inSubmission = true;
+
+    const subscription = this.loginService.logInWithEmailAndPassword(this.credentials.email,
+      this.credentials.password).subscribe({
+        next: (item) => {
+          this.alertMsg = 'Sucesso!'
+          this.alertColor = this.green
+          this.auth.setIsAuthenticated = true
+
+          const token = JSON.parse(JSON.stringify(item)).access_token
+          localStorage.setItem('access_token', token)
+          console.log(localStorage.getItem('access_token'))
+        },
+        error: (err) => {
+          this.alertMsg = 'Tente com outras credenciais ou ative sua conta'
+        this.alertColor = this.red
+
+        this.inSubmission = false
+        console.log(err)
+        }
+    })
+
   }
-
-  async login() {
-    return
-  }
-
 }
+

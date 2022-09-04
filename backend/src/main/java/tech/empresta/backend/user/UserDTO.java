@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.empresta.backend.role.Role;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -38,6 +36,18 @@ public class UserDTO {
     @NotBlank(message = "Email do usuário não pode ser nulo/vazio")
     @Email(message = "Email inválido")
     private String email;
+
+    @Size(min = 14, max = 50, message = "Cpf deve conter entre 14 e 50 caracteres")
+    @NotBlank(message = "Cpf do usuário não pode ser nulo/vazio")
+    private String cpf;
+
+    @Size(min = 14, max = 50, message = "Celular deve conter entre 14 e 50 caracteres")
+    @NotBlank(message = "Celular do usuário não pode ser nulo/vazio")
+    private String phoneNumber;
+
+    @NotNull(message = "Renda do usuário não pode ser nula/vazia")
+    @Min(value = 0, message = "Renda do usuário não pode ser menor que 0")
+    private Long income;
 
     private Boolean locked = false;
 

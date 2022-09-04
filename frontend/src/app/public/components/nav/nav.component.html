@@ -8,10 +8,19 @@
     <nav
       class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center"
     >
-      <a (click)="openModal($event)" class="cursor-pointer mr-5">Login</a>
-      <a class="cursor-pointer mr-5">Manage</a>
-      <a class="cursor-pointer mr-5">Third Link</a>
-      <a class="cursor-pointer mr-5">Fourth Link</a>
+      <ng-template #authLinks>
+        <a class="cursor-pointer mr-5">Meus empréstimos</a>
+        <a class="cursor-pointer mr-5">Minha conta</a>
+        <a (click)="auth.logout($event)" class="cursor-pointer mr-5">Sair</a>
+      </ng-template>
+      <a class="cursor-pointer mr-5">Sobre</a>
+      <a
+        *ngIf="!(auth.getIsAuthenticated | async); else authLinks"
+        (click)="openModal($event)"
+        class="cursor-pointer mr-5"
+      >
+        Login/Registrar
+      </a>
     </nav>
     <button
       (click)="toggleTheme($event)"

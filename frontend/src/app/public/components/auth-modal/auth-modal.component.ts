@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import IAddress from 'src/app/core/models/address.model';
+import IUser from 'src/app/core/models/user.model';
 import { ModalService } from '../../services/modal.service';
 
 @Component({

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { ThemeService } from 'src/app/core/theme/theme.service';
 import { ModalService } from '../../services/modal.service';
 
@@ -9,7 +10,7 @@ import { ModalService } from '../../services/modal.service';
 })
 export class NavComponent implements OnInit {
 
-  constructor(public modal: ModalService, public themeService: ThemeService) { }
+  constructor(public modal: ModalService, public themeService: ThemeService, public auth: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -18,7 +19,6 @@ export class NavComponent implements OnInit {
     $event.preventDefault()
     this.modal.toggleModal('auth')
   }
-
 
   toggleTheme($event: Event) {
     $event.preventDefault()

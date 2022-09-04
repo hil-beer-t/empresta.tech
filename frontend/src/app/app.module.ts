@@ -16,11 +16,12 @@ import { PublicModule } from './public/public.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     PrivateModule,
     PublicModule,
     HttpClientModule,
     ThemeModule.forRoot({
-      themes: [lightTheme, darkTheme],
+      themes: [darkTheme, lightTheme],
       active: 'dark'
     }),
     AppRoutingModule,

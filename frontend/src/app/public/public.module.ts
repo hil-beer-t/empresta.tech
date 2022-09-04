@@ -7,24 +7,25 @@ import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 import { RegisterComponent } from './components/register/register.component';
-
+import { AddressComponent } from './components/address/address.component';
 
 @NgModule({
   declarations: [
     NavComponent,
     AuthModalComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     NavComponent,
-    AuthModalComponent
+    AuthModalComponent,
   ]
 })
 export class PublicModule { }

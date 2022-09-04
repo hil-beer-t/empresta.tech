@@ -1,7 +1,12 @@
 package tech.empresta.backend.api._Public;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.empresta.backend.response.Response;
 import tech.empresta.backend.signup.SignUpRequest;
 import tech.empresta.backend.signup.SignUpService;
 
@@ -19,8 +24,9 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
-    public String signUp(@RequestBody SignUpRequest request){
-        return signUpService.register(request);
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request){
+
+        return new ResponseEntity<>(signUpService.register(request),HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/confirm")

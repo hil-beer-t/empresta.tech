@@ -1,38 +1,39 @@
 <input
   [formControl]="control"
   [type]="type"
-  class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+  class="block w-full py-1.5 px-3 text-[#F57C00] border border-[#fca851] transition duration-500 focus:outline-none rounded bg-transparent focus:border-[#F57C00]"
   [placeholder]="placeholder"
   [mask]="format"
+  [allowNegativeNumbers]="false"
   [dropSpecialCharacters]="false"
 />
 
 <ng-container *ngIf="control.touched && control.dirty">
   <p *ngIf="control.errors?.['required']" class="text-red-400">
-    Field is required
+    Esse campo é obrigatório
   </p>
   <p *ngIf="control.errors?.['minlength']" class="text-red-400">
-    The value you inputted is
+    O valor colocado tem
     {{ control.errors?.['minlength'].actualLength }}
-    charecters long. It must be at least
+    caracteres. Ele deve conter no mínimo
     {{ control.errors?.['minlength'].requiredLength }}
-    characters long.
+    caracteres
   </p>
   <p *ngIf="control.errors?.['email']" class="text-red-400">
-    You must enter a valid email
+    Coloco um email válido
   </p>
-  <p *ngIf="control.errors?.['min']" class="text-red-400">Value too low</p>
-  <p *ngIf="control.errors?.['max']" class="text-red-400">Value too high</p>
+  <p *ngIf="control.errors?.['min']" class="text-red-400">Valor muito baixo</p>
+  <p *ngIf="control.errors?.['max']" class="text-red-400">Valor muito alto</p>
   <p *ngIf="control.errors?.['pattern']" class="text-red-400">
-    - At least 8 characters <br />
-    - Must contain at least 1 uppercase letter <br />
-    - Must contain at least 1 lowercase letter<br />
-    - Must contain at least 1 number
+    - Pelo menos 8 caracteres <br />
+    - Pelo menos 1 carácter maiúsculo<br />
+    - Pelo menos 1 carácter minúsculo<br />
+    - Pelo menos 1 número
   </p>
   <p *ngIf="control.errors?.['noMatch']" class="text-red-400">
-    Passwords do not match.
+    Senhas não coincidem
   </p>
   <p *ngIf="control.errors?.['emailTaken']" class="text-red-400">
-    This email address is already taken. Please try another
+    Esse email já existe. Tente outro email.
   </p>
 </ng-container>

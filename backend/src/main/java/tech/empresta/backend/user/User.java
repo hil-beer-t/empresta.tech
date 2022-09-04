@@ -27,7 +27,8 @@ import java.util.Collection;
 @Table(
         name = "tb_user",
         uniqueConstraints = {
-                @UniqueConstraint(name = "name_email_unique", columnNames = "email")
+                @UniqueConstraint(name = "name_email_unique", columnNames = "email"),
+                @UniqueConstraint(name = "name_cpf_unique", columnNames = "cpf")
         }
 )
 public class User implements UserDetails {
@@ -46,6 +47,15 @@ public class User implements UserDetails {
 
     @Column(name = "alias", length = 50)
     private String alias;
+
+    @Column(name = "cpf", length = 50)
+    private String cpf;
+
+    @Column(name = "phoneNumber", length = 50)
+    private String phoneNumber;
+
+    @Column(name = "income")
+    private Long income;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -100,20 +110,23 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    public User(String alias, String name, String email, String password, Collection<Role> roles) {
-        this.alias = alias;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
-
     public User(String alias, String name, String email, Boolean locked, Boolean enabled, String password, Collection<Role> roles) {
         this.alias = alias;
         this.name = name;
         this.email = email;
         this.locked = locked;
         this.enabled = enabled;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String alias, String cpf, String phoneNumber, Long income, String name, String email, String password, Collection<Role> roles) {
+        this.alias = alias;
+        this.cpf = cpf;
+        this.phoneNumber = phoneNumber;
+        this.income = income;
+        this.name = name;
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }

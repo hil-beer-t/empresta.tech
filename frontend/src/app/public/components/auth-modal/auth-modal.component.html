@@ -1,1 +1,14 @@
-<app-modal modalID="auth"></app-modal>
+<app-modal modalID="auth">
+  <p class="text-2xl font-bold font-['Poppins']" heading>Sua conta</p>
+
+  <app-tabs-container>
+    <app-tab tabTitle="Login">
+      <app-login></app-login>
+    </app-tab>
+
+    <app-tab tabTitle="Register">
+      <app-register></app-register>
+      <app-address></app-address>
+    </app-tab>
+  </app-tabs-container>
+</app-modal>
