@@ -9,7 +9,13 @@
       class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center"
     >
       <ng-template #authLinks>
-        <a class="cursor-pointer mr-5">Meus empréstimos</a>
+        <a
+          class="cursor-pointer mr-5"
+          routerLink="/manage"
+          routerLinkActive="text-[#00B5B5]"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Meus empréstimos</a
+        >
         <a class="cursor-pointer mr-5">Minha conta</a>
         <a (click)="auth.logout($event)" class="cursor-pointer mr-5">Sair</a>
       </ng-template>

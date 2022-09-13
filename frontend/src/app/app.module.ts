@@ -8,6 +8,7 @@ import { darkTheme } from './core/theme/dark-theme';
 import { lightTheme } from './core/theme/light-theme';
 import { ThemeModule } from './core/theme/theme.module';
 import { PrivateModule } from './private/private.module';
+import { NavComponent } from './public/components/nav/nav.component';
 import { PublicModule } from './public/public.module';
 
 @NgModule({

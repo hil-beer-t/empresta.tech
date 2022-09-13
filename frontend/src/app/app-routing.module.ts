@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { HomeComponent } from './public/components/home/home.component';
 import { NotFoundComponent } from './public/components/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent},
+  { path: '', component: HomeComponent},
+  {
+    path: '',
+    loadChildren: async () => (await import('./private/modules/loan/loan.module')).LoanModule
+  },
   {
     // wildcard routes
     path: '**', component: NotFoundComponent
-  }
+    // keep it down here
+  },
 ];
 
 @NgModule({

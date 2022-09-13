@@ -9,6 +9,8 @@ import { AuthModalComponent } from './components/auth-modal/auth-modal.component
 import { RegisterComponent } from './components/register/register.component';
 import { AddressComponent } from './components/address/address.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,18 +19,21 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     RegisterComponent,
     LoginComponent,
     AddressComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
     FormsModule,
+    RouterModule
   ],
   exports: [
     NavComponent,
     AuthModalComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    HomeComponent
   ]
 })
 export class PublicModule { }
