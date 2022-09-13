@@ -8,6 +8,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AddressComponent } from './components/address/address.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AddressComponent } from './components/address/address.component';
     AuthModalComponent,
     RegisterComponent,
     LoginComponent,
-    AddressComponent
+    AddressComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { AddressComponent } from './components/address/address.component';
   exports: [
     NavComponent,
     AuthModalComponent,
+    NotFoundComponent
   ]
 })
 export class PublicModule { }
