@@ -1,0 +1,54 @@
+<!-- Edit Modal -->
+<app-modal modalID="createLoan">
+  <p class="text-2xl font-bold">Novo empréstimo</p>
+
+  <app-alert *ngIf="showAlert" [color]="alertColor">
+    <p>{{ alertMsg }}</p>
+  </app-alert>
+
+  <!-- Form -->
+  <form [formGroup]="loanForm" (ngSubmit)="submit()">
+    <!-- Valor -->
+    <div class="mt-4">
+      <label class="block text-xl mb-4">Valor</label>
+      <app-number-input
+        prefix="R$ "
+        placeholder="R$ 10.000"
+        [control]="value"
+      ></app-number-input>
+    </div>
+
+    <div class="mt-4">
+      <label class="block text-xl mb-4">Parcelas</label>
+      <app-number-input
+        prefix=""
+        placeholder="36"
+        [control]="intervals"
+      ></app-number-input>
+    </div>
+
+    <div class="mt-4">
+      <label class="block text-xl mb-4">Data da primeira parcela</label>
+      <app-input
+        type="date"
+        [control]="initialDate"
+        min="{{ minDate }}"
+        max="{{ maxDate }}"
+      ></app-input>
+    </div>
+
+    <div class="mt-4 text-right">
+      <button
+        [ngClass]="{
+          'opacity-50': inSubmission,
+          'hover:bg-[#faab5a]': !inSubmission
+        }"
+        [disabled]="loanForm.invalid || inSubmission"
+        type="submit"
+        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm rounded-md text-white bg-[#F57C00] disabled:opacity-50 disabled:bg-[#F57C00] focus:outline-none"
+      >
+        Enviar para análise
+      </button>
+    </div>
+  </form>
+</app-modal>

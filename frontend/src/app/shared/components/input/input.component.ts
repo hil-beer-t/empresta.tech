@@ -12,6 +12,8 @@ export class InputComponent implements OnInit {
   @Input() type = 'text'
   @Input() placeholder = ''
   @Input() format = ''
+  @Input() min = ''
+  @Input() max = ''
 
   constructor() { }
 

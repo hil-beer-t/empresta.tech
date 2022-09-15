@@ -53,7 +53,7 @@ public class LoanController {
 
         // TODO: verify by loan status instead number of loans
         // we want allow a creation of a loan, when the numOfLoans > 0 but with DENIED status
-        if (numOfLoans > 0) throw new IllegalStateException();
+        if (numOfLoans > 0) throw new IllegalStateException("User already have an active loan");
 
         loan.setCod(GenerateLoanCod.generate(userId));
         loan.setCreatedAt(LocalDateTime.now());
@@ -78,11 +78,13 @@ public class LoanController {
     }
 
     @GetMapping("/loan")
-    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@RequestBody String email) {
+    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@RequestBody String email) throws JSONException {
+
+        JSONObject data = new JSONObject(email);
 
         Response<List<Loan>> response = new Response<>();
 
-        response.setData(loanService.getLoansByUserEmail(email));
+        response.setData(loanService.getLoansByUserEmail((String) data.get("email")));
 
         return ResponseEntity.ok().body(response);
     }

@@ -7,5 +7,7 @@ export const darkTheme: Theme = {
     '--primary': '#F57C00',
     '--white': '#FBFBFB',
     '--blue': '#1A73E8',
+    '--gray': '#FBFBFB',
+    '--white-text': '#FBFBFB'
   }
 }

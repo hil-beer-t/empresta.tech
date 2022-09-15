@@ -1,14 +1,13 @@
 <input
   [formControl]="control"
-  [type]="type"
   class="block w-full py-1.5 px-3 text-[#F57C00] border border-[#fca851] transition duration-500 focus:outline-none rounded bg-transparent focus:border-[#F57C00]"
   [placeholder]="placeholder"
-  [mask]="format"
+  type="text"
+  [prefix]="prefix"
   [allowNegativeNumbers]="false"
-  [dropSpecialCharacters]="false"
+  mask="000.000.000.000"
+  mask="separator.2"
   thousandSeparator="."
-  [min]="min"
-  [max]="max"
 />
 
 <ng-container *ngIf="control.touched && control.dirty">
@@ -25,8 +24,16 @@
   <p *ngIf="control.errors?.['email']" class="text-red-400">
     Coloco um email válido
   </p>
-  <p *ngIf="control.errors?.['min']" class="text-red-400">Valor muito baixo</p>
-  <p *ngIf="control.errors?.['max']" class="text-red-400">Valor muito alto</p>
+  <p *ngIf="control.errors?.['min']" class="text-red-400">
+    O valor colocado tem
+    {{ control.errors?.['min'].actualLength }}
+    caracteres. Ele deve conter no mínimo
+    {{ control.errors?.['min'].requiredLength }}
+    caracteres
+  </p>
+  <p *ngIf="control.errors?.['max']" class="text-red-400">
+    Empréstimo máximo: R$ 1.000.000 em até 72 parcelas
+  </p>
   <p *ngIf="control.errors?.['pattern']" class="text-red-400">
     - Pelo menos 8 caracteres <br />
     - Pelo menos 1 carácter maiúsculo<br />

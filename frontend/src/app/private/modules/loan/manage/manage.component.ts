@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from 'src/app/public/services/modal.service';
 
 @Component({
   selector: 'app-manage',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageComponent implements OnInit {
 
-  constructor() { }
+  haveLoan = false;
+  haveLoans = false;
+
+  constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
+  }
+
+  openModal($event: Event){
+    $event.preventDefault()
+
+    this.modalService.toggleModal('createLoan')
   }
 
 }
