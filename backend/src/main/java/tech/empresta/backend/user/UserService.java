@@ -2,6 +2,7 @@ package tech.empresta.backend.user;
 
 import tech.empresta.backend.role.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  * @project empresta.tech
  */
 public interface UserService {
+    ArrayList<String> isNotEmailTaken(String userEmail);
     User saveUser(User user);
     Role saveRole(Role role);
     void addRoleToUser(String email, String roleName);

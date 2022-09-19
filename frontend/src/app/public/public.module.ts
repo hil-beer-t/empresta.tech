@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     AddressComponent,
     NotFoundComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +33,8 @@ import { RouterModule } from '@angular/router';
     NavComponent,
     AuthModalComponent,
     NotFoundComponent,
-    HomeComponent
+    HomeComponent,
+
   ]
 })
 export class PublicModule { }

@@ -1,42 +1,49 @@
-<input
-  [formControl]="control"
-  [type]="type"
-  class="block w-full py-1.5 px-3 text-[#F57C00] border border-[#fca851] transition duration-500 focus:outline-none rounded bg-transparent focus:border-[#F57C00]"
-  [placeholder]="placeholder"
-  [mask]="format"
-  [allowNegativeNumbers]="false"
-  [dropSpecialCharacters]="false"
-  thousandSeparator="."
-  [min]="min"
-  [max]="max"
-/>
+<input [formControl]="control"
+       [type]="type"
+       class="block w-full py-1.5 px-3 text-[#F57C00] border border-[#fca851] transition duration-500 focus:outline-none rounded bg-transparent focus:border-[#F57C00]"
+       [placeholder]="placeholder"
+       [mask]="format"
+       [allowNegativeNumbers]="false"
+       [dropSpecialCharacters]="false"
+       thousandSeparator="."
+       [min]="min"
+       [max]="max"
+       uniqueEmail />
 
 <ng-container *ngIf="control.touched && control.dirty">
-  <p *ngIf="control.errors?.['required']" class="text-red-400">
+  <p *ngIf="control.errors?.['required']"
+     class="text-red-400">
     Esse campo é obrigatório
   </p>
-  <p *ngIf="control.errors?.['minlength']" class="text-red-400">
+  <p *ngIf="control.errors?.['minlength']"
+     class="text-red-400">
     O valor colocado tem
     {{ control.errors?.['minlength'].actualLength }}
     caracteres. Ele deve conter no mínimo
     {{ control.errors?.['minlength'].requiredLength }}
     caracteres
   </p>
-  <p *ngIf="control.errors?.['email']" class="text-red-400">
-    Coloco um email válido
+  <p *ngIf="control.errors?.['email']"
+     class="text-red-400">
+    Coloque um email válido
   </p>
-  <p *ngIf="control.errors?.['min']" class="text-red-400">Valor muito baixo</p>
-  <p *ngIf="control.errors?.['max']" class="text-red-400">Valor muito alto</p>
-  <p *ngIf="control.errors?.['pattern']" class="text-red-400">
+  <p *ngIf="control.errors?.['min']"
+     class="text-red-400">Valor muito baixo</p>
+  <p *ngIf="control.errors?.['max']"
+     class="text-red-400">Valor muito alto</p>
+  <p *ngIf="control.errors?.['pattern']"
+     class="text-red-400">
     - Pelo menos 8 caracteres <br />
     - Pelo menos 1 carácter maiúsculo<br />
     - Pelo menos 1 carácter minúsculo<br />
     - Pelo menos 1 número
   </p>
-  <p *ngIf="control.errors?.['noMatch']" class="text-red-400">
+  <p *ngIf="control.errors?.['noMatch']"
+     class="text-red-400">
     Senhas não coincidem
   </p>
-  <p *ngIf="control.errors?.['emailTaken']" class="text-red-400">
+  <p *ngIf="control.errors?.['emailTaken']"
+     class="text-red-400">
     Esse email já existe. Tente outro email.
   </p>
 </ng-container>

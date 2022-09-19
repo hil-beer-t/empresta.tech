@@ -1,5 +1,9 @@
 package tech.empresta.backend.enums;
 
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import tech.empresta.backend.loan.Loan;
+
 /**
  * @author Hilbert Digenio ON 18/08/2022
  * @version 0.0.1-SNAPSHOT
@@ -7,14 +11,14 @@ package tech.empresta.backend.enums;
  */
 
 public enum LoanStatus {
-    WAITING_FOR_AUDITING("waiting_for_auditing", 0),
-    AUDITED("audited", 1),
-    APPROVED("approved", 2),
-    WAITING_FOR_SIGN("waiting_for_sign", 3),
-    SIGNED("signed", 4),
-    WAITING_PAYMENT("waiting_payment", 5),
-    PAID("paid", 6),
-    DENIED("denied", 7);
+    WAITING_FOR_AUDITING("WAITING_FOR_AUDITING", 0),
+    AUDITED("AUDITED", 1),
+    APPROVED("APPROVED", 2),
+    WAITING_FOR_SIGN("WAITING_FOR_SIGN", 3),
+    SIGNED("SIGNED", 4),
+    WAITING_PAYMENT("WAITING_PAYMENT", 5),
+    PAID("PAID", 6),
+    DENIED("DENIED", 7);
 
     private String name;
     private final int cod;

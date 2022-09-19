@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import ILoan from 'src/app/core/models/loan.model';
+import { LoanService } from 'src/app/core/services/loan.service';
 import { ModalService } from 'src/app/public/services/modal.service';
 
 @Component({
@@ -26,21 +28,27 @@ export class LoanCreateComponent implements OnInit, OnInit, OnDestroy {
   alertColor = this.blue
   // --- alert properties ---
 
+  constructor(private modal: ModalService, private loan: LoanService) {
 
-  value = new FormControl('', {
+    this.maxDate = maxDate()
+    this.minDate = minDate()
+
+  }
+
+  value = new FormControl('' as string, {
     validators: [Validators.required,
-      Validators.min(0),
-      Validators.max(1000000)],
+    Validators.min(0),
+    Validators.max(1000000)],
     nonNullable: true,
   });
 
   intervals = new FormControl('', {
     validators: [Validators.required, Validators.min(0),
-      Validators.max(72)],
+    Validators.max(72)],
     nonNullable: true,
   });
 
-  initialDate = new FormControl('', {
+  initialDate = new FormControl('' as string, {
     validators: [Validators.required],
     nonNullable: true,
   });
@@ -51,69 +59,63 @@ export class LoanCreateComponent implements OnInit, OnInit, OnDestroy {
     initialDate: this.initialDate
   });
 
-  constructor(private modal: ModalService) {
-    this.maxDate = maxDate()
-    this.minDate = minDate()
-  }
 
   ngOnDestroy(): void {
-      this.modal.unregister('createLoan')
+    this.modal.unregister('createLoan')
   }
 
   ngOnInit(): void {
-      this.modal.register('createLoan')
+    this.modal.register('createLoan')
   }
 
-  async submit(){
+  submit() {
     const str = this.loanForm.value.initialDate
-    const date = new Date(str ?? '').toLocaleString('pt-br',{
+    const date = new Date(str ?? '').toLocaleString('pt-br', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric'
     })
 
-    // this.showAlert = true;
-    // this.alertColor = this.blue;
-    // this.alertMsg = 'Please wait! Your clip is being updated.';
-    // this.inSubmission = true;
+    this.showAlert = true;
+    this.alertColor = this.blue;
+    this.alertMsg = 'Por favor, aguarde! Estamos enviando seu pedido.';
+    this.inSubmission = true;
 
-    // try{
-    //   await this.clipService.updateClip(this.clipId.value ?? 'Video', this.title.value)
-    // }
-    // catch(e) {
-    //   this.inSubmission = false
-    //   this.alertColor = this.red
-    //   this.alertMsg = 'Something went wrong. Try again later.'
-    //   return
-    // }
+    const subscription = this.loan.createLoan(this.loanForm.value,
+      '2').subscribe({
+        next: (item) => {
+          this.alertMsg = 'Enviado com sucesso!'
+          this.alertColor = this.green
 
-    // this.activeClip.title = this.title.value
-    // this.update.emit(this.activeClip)
+          const token = JSON.parse(JSON.stringify(item)).access_token
+          localStorage.setItem('access_token', token)
+          console.log(localStorage.getItem('access_token'))
+        },
+        error: (err) => {
+          this.alertMsg = 'Você já possui um empréstimo em andamento.'
+          this.alertColor = this.red
 
-    // this.inSubmission = false
-    // this.alertColor = this.green;
-    // this.alertMsg = 'Success';
-    console.log(this.loanForm.value)
-    console.log(date)
-    this.modal.toggleModal('createLoan')
-
+          this.inSubmission = false
+          console.log(err)
+        }
+      })
   }
 }
 
 function maxDate() {
-   //Display Only Date till today //
-   var dtToday = new Date();
-   var month = dtToday.getMonth() + 4 + '';     // getMonth() is zero-based
-   var day = dtToday.getDate() + '';
-   var year = dtToday.getFullYear();
-   if(parseInt(month) < 10)
-       month = '0' + month.toString();
-   if(parseInt(day) < 10)
-       day = '0' + day.toString();
+  //Display Only Date till today //
+  var dtToday = new Date();
+  var month = dtToday.getMonth() + 4 + '';     // getMonth() is zero-based
+  var day = dtToday.getDate() + '';
+  var year = dtToday.getFullYear();
+  if (parseInt(month) < 10)
+    month = '0' + month.toString();
+  if (parseInt(day) < 10)
+    day = '0' + day.toString();
 
-   const maxDate = year + '-' + month + '-' + day;
+  const maxDate = year + '-' + month + '-' + day;
 
-   return maxDate
+  return maxDate
 }
 
 function minDate() {
@@ -122,10 +124,10 @@ function minDate() {
   var month = dtToday.getMonth() + 1 + '';     // getMonth() is zero-based
   var day = dtToday.getDate() + '';
   var year = dtToday.getFullYear();
-  if(parseInt(month) < 10)
-      month = '0' + month.toString();
-  if(parseInt(day) < 10)
-      day = '0' + day.toString();
+  if (parseInt(month) < 10)
+    month = '0' + month.toString();
+  if (parseInt(day) < 10)
+    day = '0' + day.toString();
 
   const minDate = year + '-' + month + '-' + day;
 

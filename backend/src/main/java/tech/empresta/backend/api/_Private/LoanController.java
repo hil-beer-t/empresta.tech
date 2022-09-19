@@ -20,6 +20,7 @@ import tech.empresta.backend.utils.GenerateLoanCod;
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class LoanController {
 
 
     @PostMapping("/create/loan/{userId}")
-    public ResponseEntity<Response<Loan>> createLoan(@Valid @RequestBody Loan loan, @PathVariable Long userId, BindingResult result) {
+    public ResponseEntity<Response<Loan>> createLoan(@Valid @RequestBody Loan bodyLoan, @PathVariable Long userId, BindingResult result) {
 
         Response<Loan> response = new Response<>();
 
@@ -53,18 +54,39 @@ public class LoanController {
 
         // TODO: verify by loan status instead number of loans
         // we want allow a creation of a loan, when the numOfLoans > 0 but with DENIED status
-        if (numOfLoans > 0) throw new IllegalStateException("User already have an active loan");
+        if (numOfLoans == 0 ) {
+            bodyLoan.setCod(GenerateLoanCod.generate(userId));
+            bodyLoan.setCreatedAt(LocalDateTime.now());
+            bodyLoan.setConfirmedAt(null);
+            bodyLoan.setUser(u);
 
-        loan.setCod(GenerateLoanCod.generate(userId));
-        loan.setCreatedAt(LocalDateTime.now());
-        loan.setConfirmedAt(null);
-        loan.setUser(u);
+            response.setData(loanService.saveLoan(bodyLoan, userId));
 
-        response.setData(loanService.saveLoan(loan, userId));
+            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
 
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
+            return ResponseEntity.created(uri).body(response);
+        }
 
-        return ResponseEntity.created(uri).body(response);
+        List<Loan> loans = loanService.getLoansByUserId(userId);
+        for ( Loan loan: loans ){
+            if ( loan.getStatus() != LoanStatus.APPROVED || loan.getStatus() != LoanStatus.DENIED ){
+                bodyLoan.setCod(GenerateLoanCod.generate(userId));
+                bodyLoan.setCreatedAt(LocalDateTime.now());
+                bodyLoan.setConfirmedAt(null);
+                bodyLoan.setUser(u);
+
+                response.setData(loanService.saveLoan(bodyLoan, userId));
+
+                URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
+
+                return ResponseEntity.created(uri).body(response);
+            }else {
+                throw new IllegalStateException("User already have an "+loan.getStatus()+" loan");
+            }
+        }
+
+        throw new IllegalStateException("Some error occurred");
+
     }
 
     @GetMapping("/loans")
@@ -77,26 +99,24 @@ public class LoanController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/loan")
-    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@RequestBody String email) throws JSONException {
-
-        JSONObject data = new JSONObject(email);
+    @GetMapping("/loan/{email}")
+    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@PathVariable String email) throws JSONException {
 
         Response<List<Loan>> response = new Response<>();
 
-        response.setData(loanService.getLoansByUserEmail((String) data.get("email")));
+        response.setData(loanService.getLoansByUserEmail(email));
 
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/change/loan/status/{loanCod}")
-    public ResponseEntity changeStatus(@PathVariable String loanCod, @RequestBody String status) throws JSONException {
+    @PatchMapping("/change/loan/status/{loanCod}")
+    public ResponseEntity changeStatus(@PathVariable String loanCod, @RequestParam String status) throws JSONException {
 
-        JSONObject jsonObject = new JSONObject(status);
+        log.info(status);
 
-        loanService.updateLoanStatus(loanCod, LoanStatus.valueOf(jsonObject.getString("status")));
+        loanService.updateLoanStatus(loanCod, LoanStatus.valueOf(status));
 
-        return ResponseEntity.ok().build();
+       return ResponseEntity.ok().build();
     }
 
 

@@ -16,6 +16,7 @@ import tech.empresta.backend.signup.token.ConfirmationToken;
 import tech.empresta.backend.signup.token.ConfirmationTokenService;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +38,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
+    public ArrayList<String> isNotEmailTaken(String email) {
 
+        if (userRepo.existsByEmail(email)){
+            ArrayList<String> a = new ArrayList<>();
+            a.add(email);
+            log.info("{}", a);
+            return a;
+        }
+        return new ArrayList<>();
+    }
     // Tells spring how to find the user
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

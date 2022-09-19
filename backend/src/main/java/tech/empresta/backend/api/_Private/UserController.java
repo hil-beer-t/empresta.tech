@@ -17,6 +17,7 @@ import tech.empresta.backend.user.UserService;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,12 @@ public class UserController {
     private final UserService userService;
 
     private final ModelMapper modelMapper;
+
+    // HEAD endpoint
+    @GetMapping("/email/{userEmail}/check")
+    public ArrayList<String> checkEmailAlreadyTaken(@PathVariable("userEmail") String userEmail){
+        return userService.isNotEmailTaken(userEmail);
+    }
 
     @GetMapping("/users")
     public ResponseEntity<Response<List<User>>> getUsers() {
@@ -60,6 +67,18 @@ public class UserController {
         Response<User> response = new Response<>();
 
         User user = userService.getUserByEmailAndId(email,id);
+
+        response.setData(user);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/user/username/{email}")
+    public ResponseEntity<Response<User>> getOneUserByUsername(@PathVariable("email") String email) {
+
+        Response<User> response = new Response<>();
+
+        User user = userService.getUserByEmail(email);
 
         response.setData(user);
 

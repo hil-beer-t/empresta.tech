@@ -42,6 +42,9 @@ public class LoanService {
     public List<Loan> getLoansByUserEmail(String email) {
         return loanRepository.getLoansByUserEmail(email);
     }
+    public List<Loan> getLoansByUserId(Long id) {
+        return loanRepository.getLoansByUserId(id);
+    }
     public long countLoanByUser(User user) {
         return loanRepository.countLoanByUser(user);
     }

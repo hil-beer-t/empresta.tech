@@ -16,7 +16,7 @@ import { NumberInputComponent } from './components/number-input/number-input.com
     TabComponent,
     InputComponent,
     AlertComponent,
-    NumberInputComponent,
+    NumberInputComponent
   ],
   imports: [
     CommonModule,

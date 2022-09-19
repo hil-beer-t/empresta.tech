@@ -33,5 +33,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     List<Loan> getLoansByUserEmail (String email);
 
+    List<Loan> getLoansByUserId(Long id);
+
     long countLoanByUser(User user);
 }

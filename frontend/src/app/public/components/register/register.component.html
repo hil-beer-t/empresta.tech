@@ -1,80 +1,69 @@
 <!-- Registration Form -->
 <!-- bind: registerForm -->
-<form
-  [ngClass]="{ hidden: !beforeRegister.isRegisterVisible() }"
-  [formGroup]="registerForm"
-  (ngSubmit)="next()"
->
+<form [ngClass]="{ hidden: !beforeRegister.isRegisterVisible() }"
+      [formGroup]="registerForm"
+      (ngSubmit)="next()">
   <!-- Name -->
   <div class="mb-3">
     <label class="inline-block mb-2">Nome</label>
-    <app-input [control]="name" placeholder="Seu nome"></app-input>
+    <app-input [control]="name"
+               placeholder="Seu nome"></app-input>
   </div>
   <!-- Apelido -->
   <div class="mb-3">
     <label class="inline-block mb-2">Apelido</label>
-    <app-input [control]="alias" placeholder="Seu apelido"></app-input>
+    <app-input [control]="alias"
+               placeholder="Seu apelido"></app-input>
   </div>
   <!-- cpf -->
   <div class="mb-3">
     <label class="inline-block mb-2">CPF</label>
-    <app-input
-      [control]="cpf"
-      placeholder="Seu cpf"
-      format="000.000.000-00"
-    ></app-input>
+    <app-input [control]="cpf"
+               placeholder="Seu cpf"
+               format="000.000.000-00"></app-input>
   </div>
   <!-- Email -->
   <div class="mb-3">
     <label class="inline-block mb-2">Email</label>
-    <app-input
-      [control]="email"
-      type="email"
-      placeholder="Seu email"
-    ></app-input>
+    <app-input [control]="email"
+               type="email"
+               placeholder="Seu email"></app-input>
+
   </div>
   <!-- income -->
   <div class="mb-3">
     <label class="inline-block mb-2">Renda</label>
-    <app-input
-      [control]="income"
-      type="number"
-      placeholder="Sua renda"
-    ></app-input>
+    <app-input [control]="income"
+               type="number"
+               placeholder="Sua renda">
+    </app-input>
   </div>
   <!-- Password -->
   <div class="mb-3">
     <label class="inline-block mb-2">Senha</label>
-    <app-input
-      [control]="password"
-      type="password"
-      placeholder="••••••••••"
-    ></app-input>
+    <app-input [control]="password"
+               type="password"
+               placeholder="••••••••••"></app-input>
   </div>
   <!-- Confirm Password -->
   <div class="mb-3">
     <label class="inline-block mb-2">Confirme sua senha</label>
-    <app-input
-      [control]="confirm_password"
-      type="password"
-      placeholder="••••••••••"
-    ></app-input>
+    <app-input [control]="confirm_password"
+               type="password"
+               placeholder="••••••••••"></app-input>
   </div>
   <!-- Phone Number -->
   <div class="mb-3">
     <label class="inline-block mb-2">Celular</label>
-    <app-input
-      [control]="phoneNumber"
-      format="(00)00000-0000"
-      placeholder="Seu celular"
-    ></app-input>
+    <app-input [control]="phoneNumber"
+               format="(00)00000-0000"
+               placeholder="Seu celular"></app-input>
   </div>
 
-  <button
-    type="submit"
-    class="block mb-3 w-full bg-[#F57C00] text-white py-1.5 px-3 rounded transition hover:bg-[#faab5a] disabled:opacity-50 disabled:bg-[#F57C00]"
-    [disabled]="registerForm.invalid || inSubmission"
-  >
+  <button type="submit"
+          class="block mb-3 w-full bg-[#F57C00] text-white py-1.5 px-3 rounded
+    transition hover:bg-[#faab5a] disabled:opacity-50 disabled:bg-[#F57C00]"
+          [disabled]="registerForm.invalid || inSubmission">
     Próximo
   </button>
 </form>
