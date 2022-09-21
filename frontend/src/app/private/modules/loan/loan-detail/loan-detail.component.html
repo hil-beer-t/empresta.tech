@@ -1,78 +1,149 @@
 <section class="text-gray-600 body-font overflow-hidden">
   <div class="loan container px-5 pt-24 mx-auto">
     <h1
-      class="theme text-lg md:text-2xl lg:text-3xl text-center md:text-left lg:text-left font-medium text-gray-900 title-font mb-[30px]"
-    >
-      Código: 213123
+        class="theme text-lg md:text-2xl lg:text-3xl text-center md:text-left lg:text-left font-medium text-gray-900 title-font mb-[30px]">
+      Código: {{loan.cod}}
     </h1>
     <div class="-my-8 divide-y-2 divide-gray-100">
       <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div
-          class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col w-screen"
-        >
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Valor</span
-          >
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col w-screen">
+          <span class="theme-title font-semibold title-font text-gray-700">Valor</span>
           <p class="mt-1 text-gray-500 text-sm">
             O quanto foi acordado durante a criação do empréstimo.
           </p>
         </div>
         <div class="md:flex-grow text-center">
           <h2
-            class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            R$ 150.000
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            R$ {{loan.value}}
           </h2>
         </div>
       </div>
       <div class="py-8 flex flex-wrap md:flex-nowrap">
         <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Parcelas</span
-          >
+          <span class="theme-title font-semibold title-font text-gray-700">Parcelas</span>
           <span class="mt-1 text-gray-500 text-sm">Quantidade de meses</span>
         </div>
         <div class="md:flex-grow">
           <h2
-            class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            36
+              class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{loan.intervals}}
           </h2>
         </div>
       </div>
       <div class="py-8 flex flex-wrap md:flex-nowrap">
         <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Primeira parcela</span
-          >
-          <span class="mt-1 text-gray-500 text-sm"
-            >Data da primeira parcela</span
-          >
+          <span class="theme-title font-semibold title-font text-gray-700">Primeira parcela</span>
+          <span class="mt-1 text-gray-500 text-sm">Data da primeira parcela</span>
         </div>
         <div class="md:flex-grow">
           <h2
-            class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[2.5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            13/julho, 2022
+              class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[2.5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{loan.initialDate | date: 'longDate' : 'undefined' : 'pt'}}
           </h2>
         </div>
       </div>
-      <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div
-          class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col"
-        >
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Status</span
-          >
-          <span class="mt-1 text-gray-500 text-sm"
-            >Situação em que seu empréstimo se encontra</span
-          >
+      <div *ngIf="loan.status==='WAITING_FOR_AUDITING'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.WAITING_FOR_AUDITING.DETAILS" | translate}}</span>
         </div>
         <div class="md:flex-grow text-center">
           <h2
-            class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            Em análise
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.WAITING_FOR_AUDITING.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='DENIED'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.DENIED.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.DENIED.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='APPROVED'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.APPROVED.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.APPROVED.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='WAITING_FOR_SIGN'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.WAITING_FOR_SIGN.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.WAITING_FOR_SIGN.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='SIGNED'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.SIGNED.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.SIGNED.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='WAITING_PAYMENT'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.WAITING_PAYMENT.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.WAITING_PAYMENT.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='PAID'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.PAID.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.PAID.NAME" | translate}}
+          </h2>
+        </div>
+      </div>
+      <div *ngIf="loan.status==='AUDITED'"
+           class="py-8 flex flex-wrap md:flex-nowrap">
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+          <span class="theme-title font-semibold title-font text-gray-700">Status</span>
+          <span class="mt-1 text-gray-500 text-sm">{{ "STATUS.AUDITED.DETAILS" | translate}}</span>
+        </div>
+        <div class="md:flex-grow text-center">
+          <h2
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[5rem] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{ "STATUS.AUDITED.NAME" | translate}}
           </h2>
         </div>
       </div>
@@ -83,44 +154,33 @@
 <section class="text-gray-600 body-font overflow-hidden">
   <div class="loan container px-5 py-24 mx-auto">
     <h1
-      class="theme text-lg md:text-2xl lg:text-3xl text-center md:text-left lg:text-left font-medium text-gray-900 title-font mb-[30px]"
-    >
+        class="theme text-lg md:text-2xl lg:text-3xl text-center md:text-left lg:text-left font-medium text-gray-900 title-font mb-[30px]">
       Dados complementares
     </h1>
     <div class="-my-8 divide-y-2 divide-gray-100">
       <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div
-          class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col w-screen"
-        >
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Email</span
-          >
+        <div class="w-1/2 md:w-64 lg:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col w-screen">
+          <span class="theme-title font-semibold title-font text-gray-700">Email</span>
           <p class="mt-1 text-gray-500 text-sm">
             Email utilizado por você no momento de criação
           </p>
         </div>
         <div class="md:flex-grow text-center">
           <h2
-            class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            hilbert@gmail.com
+              class="py-8 md:py-0 lg-py-0 theme text-lg md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            {{loan.user!.email}}
           </h2>
         </div>
       </div>
       <div class="py-8 flex flex-wrap md:flex-nowrap">
         <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="theme-title font-semibold title-font text-gray-700"
-            >Renda</span
-          >
-          <span class="mt-1 text-gray-500 text-sm"
-            >Renda informada por você</span
-          >
+          <span class="theme-title font-semibold title-font text-gray-700">Renda</span>
+          <span class="mt-1 text-gray-500 text-sm">Renda informada por você</span>
         </div>
         <div class="md:flex-grow">
           <h2
-            class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2"
-          >
-            R$ 50.000
+              class="theme text-lg md:text-2xl lg:text-3xl md:text-2xl lg:text-3xl text-center ml-[50px] md:mx-0 lg:mx-0 font-medium text-gray-900 title-font mb-2">
+            R$ {{loan.user!.income}}
           </h2>
         </div>
       </div>

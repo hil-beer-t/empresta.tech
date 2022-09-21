@@ -30,7 +30,7 @@ public class LoanService {
         return loanRepository.updateLoanStatus(cod, status);
     }
 
-    public Loan saveLoan(Loan loan, Long id){
+    public Loan saveLoan(Loan loan){
         return loanRepository.save(loan);
     }
 
@@ -48,4 +48,5 @@ public class LoanService {
     public long countLoanByUser(User user) {
         return loanRepository.countLoanByUser(user);
     }
+
 }

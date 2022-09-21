@@ -33,4 +33,15 @@ export class LoanService {
     )
   }
 
+  getLoanByCod(cod: string): Observable<IResponse<ILoan>> {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + localStorage.getItem('access_token')
+    )
+    return this.http.get<IResponse<ILoan>>(
+      `http://localhost:8080/v1/private/loan/cod/${cod}`,
+      { headers: headers }
+    )
+  }
+
 }

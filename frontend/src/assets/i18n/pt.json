@@ -1,0 +1,36 @@
+{
+  "STATUS": {
+    "WAITING_FOR_AUDITING": {
+      "NAME": "Esperando auditoria",
+      "DETAILS": "Estamos verificando seus dados."
+    },
+    "AUDITED": {
+      "NAME": "Auditado",
+      "DETAILS": "Estamos gerando o contrato."
+    },
+    "APPROVED": {
+      "NAME": "Aprovado",
+      "DETAILS": "Processando pagamento."
+    },
+    "WAITING_FOR_SIGN": {
+      "NAME": "Esperando assinatura",
+      "DETAILS": "Assine o contrato para continuar o processo."
+    },
+    "SIGNED": {
+      "NAME": "Contrato assinado",
+      "DETAILS": "Agora é com a gente."
+    },
+    "WAITING_PAYMENT": {
+      "NAME": "Pagamento em processamento",
+      "DETAILS": "Seu pagamento está sendo realizado."
+    },
+    "PAID": {
+      "NAME": "Pago",
+      "DETAILS": "Estamos verificando seus dados."
+    },
+    "DENIED": {
+      "NAME": "Negado",
+      "DETAILS": "Não foi possível realizar o empréstimo."
+    }
+  }
+}

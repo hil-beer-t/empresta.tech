@@ -14,7 +14,7 @@ export class AuthService {
   private _isAuthenticated$ = new BehaviorSubject<boolean>(false);
   public _isAuthenticatedWithDelay$ = new Observable<boolean>();
 
-  constructor(private router: Router,private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   public set setIsAuthenticated(value: boolean) {
@@ -26,9 +26,16 @@ export class AuthService {
     return this._isAuthenticated$.asObservable();
   }
 
+  public get isAuthenticated(): boolean {
+    if (localStorage.getItem('access_token') && this.helper.isTokenExpired(localStorage.getItem('access_token') ?? undefined)) {
+      return true
+    }
+    return false
+  }
+
   public async logout($event?: Event) {
 
-    if ($event){
+    if ($event) {
       $event.preventDefault()
     }
 

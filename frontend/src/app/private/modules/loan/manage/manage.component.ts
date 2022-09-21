@@ -1,28 +1,29 @@
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { ModalService } from 'src/app/public/services/modal.service';
-import { TokenService } from 'src/app/core/services/token.service';
 import ILoan from 'src/app/core/models/loan.model';
+import { TranslateService } from '@ngx-translate/core';
+import IStatus from 'src/app/core/models/status.model';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.css']
 })
-export class ManageComponent implements OnInit, OnDestroy, OnChanges {
+export class ManageComponent implements OnInit, OnDestroy {
 
-  haveLoan: boolean = true;
-  haveLoans: boolean = false;
+  haveLoan: boolean = true
+  haveLoans: boolean = false
   loans: ILoan[] = []
 
   readonly subscriptions = new Subscription()
 
-  constructor(private modalService: ModalService, private loanService: LoanService, private token: TokenService) { }
-  ngOnChanges(changes: SimpleChanges): void {
-
+  constructor(public translate: TranslateService, private modalService: ModalService, private loanService: LoanService, private user: UserService, private router: Router) {
+    this.translate.use('en')
   }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe()
   }
@@ -37,18 +38,21 @@ export class ManageComponent implements OnInit, OnDestroy, OnChanges {
     this.modalService.toggleModal('createLoan')
   }
 
+
   private listLoans(): void {
-    const subscription = this.loanService.getLoanByEmail(this.token.getUserEmail()).subscribe((items) => {
+    const subscription = this.loanService.getLoanByEmail(this.user.getUserEmail()).subscribe((items) => {
       const data = items.data
       this.loans = data
-      console.log(this.loans)
-      this.haveLoan = this.loans.length >= 1 ? true : false;
+      this.haveLoan = this.loans.length == 1 ? true : false;
       this.haveLoans = this.loans.length > 1 ? true : false;
-      console.log(this.haveLoan)
-      console.log(this.haveLoans)
     })
 
     this.subscriptions.add(subscription)
+  }
+
+  loanDetails($event: Event, loanCod: string) {
+    $event.preventDefault()
+    this.router.navigate([`/loan-detail/${loanCod}`]);
   }
 
 }

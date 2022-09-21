@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import ILoan from 'src/app/core/models/loan.model';
 import { LoanService } from 'src/app/core/services/loan.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { ModalService } from 'src/app/public/services/modal.service';
 
 @Component({
@@ -28,7 +30,9 @@ export class LoanCreateComponent implements OnInit, OnInit, OnDestroy {
   alertColor = this.blue
   // --- alert properties ---
 
-  constructor(private modal: ModalService, private loan: LoanService) {
+  readonly subscriptions = new Subscription()
+
+  constructor(private modal: ModalService, private loan: LoanService, private user: UserService) {
 
     this.maxDate = maxDate()
     this.minDate = minDate()
@@ -62,6 +66,8 @@ export class LoanCreateComponent implements OnInit, OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.modal.unregister('createLoan')
+    this.subscriptions.unsubscribe()
+
   }
 
   ngOnInit(): void {
@@ -82,21 +88,21 @@ export class LoanCreateComponent implements OnInit, OnInit, OnDestroy {
     this.inSubmission = true;
 
     const subscription = this.loan.createLoan(this.loanForm.value,
-      '2').subscribe({
+      this.user.getUserEmail()).subscribe({
         next: (item) => {
           this.alertMsg = 'Enviado com sucesso!'
           this.alertColor = this.green
 
           const token = JSON.parse(JSON.stringify(item)).access_token
           localStorage.setItem('access_token', token)
-          console.log(localStorage.getItem('access_token'))
+          this.subscriptions.add(subscription)
         },
         error: (err) => {
           this.alertMsg = 'Você já possui um empréstimo em andamento.'
           this.alertColor = this.red
-
           this.inSubmission = false
           console.log(err)
+          this.subscriptions.add(subscription)
         }
       })
   }

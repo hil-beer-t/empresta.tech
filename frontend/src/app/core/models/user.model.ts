@@ -1,5 +1,5 @@
 export default interface IUser {
-  alias: string,
+  alias?: string,
   cpf: string,
   phoneNumber: string
   income: number,

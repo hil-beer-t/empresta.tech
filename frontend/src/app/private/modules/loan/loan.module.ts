@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LoanDetailComponent } from './loan-detail/loan-detail.component';
 import { LoanCreateComponent } from './loan-create/loan-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    LoanRoutingModule
+    LoanRoutingModule,
+    TranslateModule
   ]
 })
 export class LoanModule { }

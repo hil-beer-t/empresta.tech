@@ -39,8 +39,8 @@ public class LoanController {
     private final UserService userService;
 
 
-    @PostMapping("/create/loan/{userId}")
-    public ResponseEntity<Response<Loan>> createLoan(@Valid @RequestBody Loan bodyLoan, @PathVariable Long userId, BindingResult result) {
+    @PostMapping("/create/loan/{userEmail}")
+    public ResponseEntity<Response<Loan>> createLoan(@Valid @RequestBody Loan bodyLoan, @PathVariable String userEmail, BindingResult result) {
 
         Response<Loan> response = new Response<>();
 
@@ -49,44 +49,49 @@ public class LoanController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        User u = userService.getUserById(userId);
+        User u = userService.getUserByEmail(userEmail);
         long numOfLoans = loanService.countLoanByUser(u);
+        long hasUnfinishedLoan = 0;
 
         // TODO: verify by loan status instead number of loans
         // we want allow a creation of a loan, when the numOfLoans > 0 but with DENIED status
         if (numOfLoans == 0 ) {
-            bodyLoan.setCod(GenerateLoanCod.generate(userId));
+            bodyLoan.setCod(GenerateLoanCod.generate(u.getId()));
             bodyLoan.setCreatedAt(LocalDateTime.now());
             bodyLoan.setConfirmedAt(null);
             bodyLoan.setUser(u);
 
-            response.setData(loanService.saveLoan(bodyLoan, userId));
+            response.setData(loanService.saveLoan(bodyLoan));
 
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
 
             return ResponseEntity.created(uri).body(response);
         }
 
-        List<Loan> loans = loanService.getLoansByUserId(userId);
+        List<Loan> loans = loanService.getLoansByUserId(u.getId());
         for ( Loan loan: loans ){
-            if ( loan.getStatus() != LoanStatus.APPROVED || loan.getStatus() != LoanStatus.DENIED ){
-                bodyLoan.setCod(GenerateLoanCod.generate(userId));
-                bodyLoan.setCreatedAt(LocalDateTime.now());
-                bodyLoan.setConfirmedAt(null);
-                bodyLoan.setUser(u);
-
-                response.setData(loanService.saveLoan(bodyLoan, userId));
-
-                URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
-
-                return ResponseEntity.created(uri).body(response);
-            }else {
-                throw new IllegalStateException("User already have an "+loan.getStatus()+" loan");
+            if ( !loan.getStatus().equals(LoanStatus.APPROVED) && !loan.getStatus().equals(LoanStatus.DENIED) ){
+                hasUnfinishedLoan++;
             }
         }
 
-        throw new IllegalStateException("Some error occurred");
+        if (hasUnfinishedLoan > 0){
+            throw new IllegalStateException("User has an unfinished loan");
+        }
 
+        if (hasUnfinishedLoan == 0){
+            bodyLoan.setCod(GenerateLoanCod.generate(u.getId()));
+            bodyLoan.setCreatedAt(LocalDateTime.now());
+            bodyLoan.setConfirmedAt(null);
+            bodyLoan.setUser(u);
+
+            response.setData(loanService.saveLoan(bodyLoan));
+
+            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/private/create/loan").toUriString());
+
+            return ResponseEntity.created(uri).body(response);
+        }
+        throw new IllegalStateException("Some error occurred");
     }
 
     @GetMapping("/loans")
@@ -105,6 +110,16 @@ public class LoanController {
         Response<List<Loan>> response = new Response<>();
 
         response.setData(loanService.getLoansByUserEmail(email));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/loan/cod/{cod}")
+    public ResponseEntity<Response<Loan>> getLoansByUserCod(@PathVariable String cod) throws JSONException {
+
+        Response<Loan> response = new Response<>();
+
+        response.setData(loanService.findLoanByCod(cod));
 
         return ResponseEntity.ok().body(response);
     }

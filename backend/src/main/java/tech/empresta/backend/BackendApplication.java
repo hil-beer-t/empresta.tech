@@ -53,7 +53,7 @@ public class BackendApplication {
 			userService.addRoleToUser("sand@gmail.com", "ROLE_ADMIN");
 			userService.addRoleToUser("craw@gmail.com", "ROLE_MANAGER");
 			userService.addRoleToUser("craw@gmail.com", "ROLE_AUDITOR");
-			userService.addRoleToUser("queue@gmail.com", "ROLE_SAC");
+			userService.addRoleToUser("queue@gmail.com", "ROLE_CSC");
 
 			loanService.saveLoan(new Loan(
 					GenerateLoanCod.generate(u.getId()),
@@ -63,7 +63,7 @@ public class BackendApplication {
 					90000L,
 					LocalDateTime.now(),
 					null,
-					u),u.getId()
+					u)
 			);
 
 
