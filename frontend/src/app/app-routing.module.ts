@@ -4,7 +4,7 @@ import { HomeComponent } from './public/components/home/home.component';
 import { NotFoundComponent } from './public/components/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},
+  { path: '', component: HomeComponent },
   {
     path: '',
     loadChildren: async () => (await import('./private/modules/loan/loan.module')).LoanModule

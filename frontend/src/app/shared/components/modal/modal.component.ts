@@ -10,7 +10,7 @@ export class ModalComponent implements OnInit {
 
   @Input() modalID = ''
 
-  constructor( public modal: ModalService, public el: ElementRef) { }
+  constructor(public modal: ModalService, public el: ElementRef) { }
 
   ngOnDestroy(): void {
     document.body.removeChild(this.el.nativeElement)

@@ -10,9 +10,16 @@ import { ModalService } from '../../services/modal.service';
 })
 export class NavComponent implements OnInit {
 
-  constructor(public modal: ModalService, public themeService: ThemeService, public auth: AuthService) { }
+  showAnchors: boolean = false
+
+  constructor(public modal: ModalService, public themeService: ThemeService, public auth: AuthService) {
+
+  }
 
   ngOnInit(): void {
+    this.auth.showNavAnchors.subscribe(
+      show => this.showAnchors = show
+    )
   }
 
   openModal($event: Event) {
@@ -22,7 +29,7 @@ export class NavComponent implements OnInit {
 
   toggleTheme($event: Event) {
     $event.preventDefault()
-    const active = this.themeService.getActiveTheme() ;
+    const active = this.themeService.getActiveTheme();
     if (active.name === 'light') {
       this.themeService.setTheme('dark');
     } else {

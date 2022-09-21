@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService, public auth: AuthService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   login() {
 
@@ -52,12 +52,12 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.alertMsg = 'Tente com outras credenciais ou ative sua conta'
-        this.alertColor = this.red
+          this.alertColor = this.red
 
-        this.inSubmission = false
-        console.log(err)
+          this.inSubmission = false
+          console.log(err)
         }
-    })
+      })
 
   }
 }

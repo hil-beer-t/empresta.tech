@@ -1,3 +1,4 @@
+import { AuthService } from './core/auth/auth.service';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -47,6 +48,7 @@ registerLocaleData(localePt)
 
   ],
   providers: [
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

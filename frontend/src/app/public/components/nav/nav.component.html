@@ -14,7 +14,7 @@
            class="cursor-pointer mr-5">Sair</a>
       </ng-template>
       <a class="cursor-pointer mr-5">Sobre</a>
-      <a *ngIf="!(auth.getIsAuthenticated | async); else authLinks"
+      <a *ngIf="!showAnchors; else authLinks"
          (click)="openModal($event)"
          class="cursor-pointer mr-5">
         Login/Registrar

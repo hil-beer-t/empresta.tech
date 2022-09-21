@@ -22,7 +22,7 @@ export class ManageComponent implements OnInit, OnDestroy {
   readonly subscriptions = new Subscription()
 
   constructor(public translate: TranslateService, private modalService: ModalService, private loanService: LoanService, private user: UserService, private router: Router) {
-    this.translate.use('en')
+    this.translate.use('pt')
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe()

@@ -1,36 +1,37 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, filter, map, Observable, of, pipe, Subject, switchMap } from 'rxjs';
-import { JwtHelperService } from "@auth0/angular-jwt";
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, delay, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  helper = new JwtHelperService()
-
-  // isAuthenticated = false
+  private isAuthenticated = false;
   private _isAuthenticated$ = new BehaviorSubject<boolean>(false);
   public _isAuthenticatedWithDelay$ = new Observable<boolean>();
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-  }
+  showNavAnchors = new EventEmitter<boolean>();
+
+  constructor(private router: Router) { }
 
   public set setIsAuthenticated(value: boolean) {
-    this._isAuthenticated$.next(value);
-    this._isAuthenticatedWithDelay$ = this._isAuthenticated$.pipe(delay(1000))
-  }
 
-  public get getIsAuthenticated(): Observable<boolean> {
-    return this._isAuthenticated$.asObservable();
-  }
+    this.isAuthenticated = value
 
-  public get isAuthenticated(): boolean {
-    if (localStorage.getItem('access_token') && this.helper.isTokenExpired(localStorage.getItem('access_token') ?? undefined)) {
-      return true
+    if (this.isAuthenticated) {
+      this.showNavAnchors.emit(true)
+      this._isAuthenticated$.next(value);
+      this._isAuthenticatedWithDelay$ = this._isAuthenticated$.pipe(delay(1000))
+    } else {
+      this.showNavAnchors.emit(false)
+      this._isAuthenticated$.next(value);
+      this._isAuthenticatedWithDelay$ = this._isAuthenticated$.pipe(delay(1000))
     }
-    return false
+  }
+
+  public get getIsAuthenticated(): boolean {
+    return this.isAuthenticated
   }
 
   public async logout($event?: Event) {
@@ -42,22 +43,9 @@ export class AuthService {
     this.setIsAuthenticated = false
     localStorage.removeItem('access_token')
 
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('').then(() => {
+      window.location.reload()
+    })
   }
-
-  // getIsAuthenticated(): boolean {
-  //   return this.isAuthenticated
-  // }
-
-  // setIsAuthenticated(value: boolean) {
-  //   this.isAuthenticated = value
-  // }
-
-  // isAuthenticated(): boolean {
-  //   if (localStorage.getItem('access_token') && this.helper.isTokenExpired(localStorage.getItem('access_token') ?? undefined)) {
-  //     return true
-  //   }
-  //   return false
-  // }
 
 }
