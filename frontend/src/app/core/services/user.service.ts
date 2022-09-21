@@ -2,7 +2,7 @@ import { IResponse } from './../models/response.model';
 import { Injectable } from '@angular/core';
 import IUser from '../models/user.model';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import IToken from '../models/token.model';
 import jwtDecode from 'jwt-decode';
 
@@ -28,8 +28,13 @@ export class UserService {
   }
 
   getUserByEmail(email: string): Observable<IResponse<IUser>> {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + localStorage.getItem('access_token')
+    )
     return this.http.get<IResponse<IUser>>(
-      `http://localhost:8080/v1/private/user/username/${email}`
+      `http://localhost:8080/v1/private/user/username/${email}`,
+      { headers: headers }
     )
   }
 

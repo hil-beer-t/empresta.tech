@@ -10,8 +10,6 @@ import { AuthService } from './core/auth/auth.service';
 export class AppComponent {
   title = 'frontend';
 
-  showAnchors: boolean = false;
-
   constructor(public auth: AuthService, translate: TranslateService) {
     translate.addLangs(['pt']);
 
@@ -23,8 +21,6 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.auth.showNavAnchors.subscribe(
-      show => this.showAnchors = show
-    )
+
   }
 }

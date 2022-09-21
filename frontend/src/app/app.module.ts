@@ -1,3 +1,4 @@
+import { LoanGuard } from './private/modules/loan/guards/loan.guard';
 import { AuthService } from './core/auth/auth.service';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -15,10 +16,16 @@ import { PrivateModule } from './private/private.module';
 import { PublicModule } from './public/public.module';
 
 import localePt from "@angular/common/locales/pt";
+import { AuthGuard } from './core/guards/auth.guard';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
+}
+
+export function getToken(): string {
+  return localStorage.getItem('access_token') as string;
 }
 
 registerLocaleData(localePt)
@@ -44,11 +51,19 @@ registerLocaleData(localePt)
         deps: [HttpClient]
       }
     }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: getToken
+      }
+    }),
     AppRoutingModule,
 
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuard,
+    LoanGuard,
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })

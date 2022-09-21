@@ -8,13 +8,15 @@ import { LoanDetailComponent } from './loan-detail/loan-detail.component';
 import { LoanCreateComponent } from './loan-create/loan-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { ManageAccountComponent } from './manage-account/manage-account.component';
 
 
 @NgModule({
   declarations: [
     ManageComponent,
     LoanDetailComponent,
-    LoanCreateComponent
+    LoanCreateComponent,
+    ManageAccountComponent
   ],
   imports: [
     CommonModule,

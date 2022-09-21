@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
         next: (item) => {
           this.alertMsg = 'Sucesso!'
           this.alertColor = this.green
-          this.auth.setIsAuthenticated = true
 
           const token = JSON.parse(JSON.stringify(item)).access_token
           localStorage.setItem('access_token', token)
-          console.log(localStorage.getItem('access_token'))
+
+          this.auth.setIsAuthenticated = true
         },
         error: (err) => {
           this.alertMsg = 'Tente com outras credenciais ou ative sua conta'

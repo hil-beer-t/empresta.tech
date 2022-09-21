@@ -1,3 +1,5 @@
+import { ManageAccountComponent } from './manage-account/manage-account.component';
+import { LoanGuard } from './guards/loan.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoanDetailComponent } from './loan-detail/loan-detail.component';
@@ -9,8 +11,18 @@ const routes: Routes = [
     component: ManageComponent
   },
   {
+    path: 'manage-account',
+    pathMatch: 'full',
+
+    component: ManageAccountComponent
+    // resolve: {
+    //   loan: LoanService
+    // }
+  },
+  {
     path: 'loan-detail/:cod',
     pathMatch: 'full',
+
     component: LoanDetailComponent
     // resolve: {
     //   loan: LoanService

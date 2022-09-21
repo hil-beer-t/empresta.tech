@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import ILoan from 'src/app/core/models/loan.model';
@@ -8,7 +8,7 @@ import { LoanService } from 'src/app/core/services/loan.service';
   templateUrl: './loan-detail.component.html',
   styleUrls: ['./loan-detail.component.css']
 })
-export class LoanDetailComponent implements OnInit {
+export class LoanDetailComponent implements OnInit, OnDestroy {
 
   loanCod = ''
   loan: ILoan = {}

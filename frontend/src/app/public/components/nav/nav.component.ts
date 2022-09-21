@@ -17,6 +17,8 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(this.showAnchors + ' nav')
     this.auth.showNavAnchors.subscribe(
       show => this.showAnchors = show
     )

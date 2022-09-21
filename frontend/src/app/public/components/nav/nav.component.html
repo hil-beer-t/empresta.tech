@@ -9,7 +9,10 @@
            routerLink="/manage"
            routerLinkActive="font-semibold"
            [routerLinkActiveOptions]="{ exact: true }">Meus empréstimos</a>
-        <a class="cursor-pointer mr-5">Minha conta</a>
+        <a class="cursor-pointer mr-5"
+           routerLink="/manage-account"
+           routerLinkActive="font-semibold"
+           [routerLinkActiveOptions]="{ exact: true }">Minha conta</a>
         <a (click)="auth.logout($event)"
            class="cursor-pointer mr-5">Sair</a>
       </ng-template>
