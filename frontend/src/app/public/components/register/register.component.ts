@@ -49,7 +49,7 @@ export class RegisterComponent {
     Validators.required,
     Validators.email
   ]);
-  income = new UntypedFormControl('', [
+  income = new UntypedFormControl(0, [
     Validators.required,
     Validators.min(0),
     Validators.max(1000000000000),

@@ -1,1 +1,96 @@
-<h1 class="font-bold text-[#F57C00]">home works!</h1>
+<section class="">
+  <div class=" px-5 grid max-w-screen-xl px-4 py-28 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+    <div class="md:m-0 mr-auto place-self-center lg:col-span-7">
+      <h1
+          class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+        Ferramenta de empréstimo rápido </h1>
+      <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+        De todos os lugares do Brasil, as pessoas confiam na gente para conseguir empréstimo, de forma rápida e segura,
+        com as menores
+        taxas do mercado.</p>
+      <button href="#"
+              (click)="openModal($event)"
+              class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+        Começar
+        <i class="material-icons">keyboard_arrow_right</i>
+
+      </button>
+      <button href="#"
+              class="inline-flex items-center justify-center ml-3 px-2 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+        Conhecer o processo <i class="material-icons">keyboard_arrow_right</i>
+
+      </button>
+    </div>
+    <div class="bunny-wrapper hidden lg:mt-0 lg:col-span-5 lg:flex">
+      <a class="hidden"
+         href="https://pancakeswap.finance/">FONTE DA IMAGEM</a>
+      <img src="assets/img/home/hero/bunny.png"
+           alt="PancakeSwap Bunny">
+    </div>
+  </div>
+</section>
+
+
+<section class="">
+  <div class="max-w-screen-xl px-4 py-20 mx-auto text-center lg:py-16 lg:px-6">
+    <h2 class="pb-3 mb-5 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Nossa
+      história com
+      números
+    </h2>
+    <dl class=" grid max-w-screen-md gap-8 mx-auto text-gray-900 sm:grid-cols-3 dark:text-white">
+      <div class="flex flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">1M+</dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">empréstimos</dd>
+      </div>
+      <div class="flex flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">1B R$+</dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">investido em pessoas</dd>
+      </div>
+      <div class="flex flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">4M+</dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">organizações</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="">
+  <div class="py-48 lg:py-16 px-4 mx-auto max-w-screen-md">
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Fale com a gente
+    </h2>
+    <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">Tem alguma dúvida ?
+      Quer enviar algum feedback ? Precisa de mais detalhes do nosso contrato ? Queremos saber.</p>
+    <form action="#"
+          class="space-y-8">
+      <div>
+        <label for="email"
+               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Seu email</label>
+        <input type="email"
+               id="email"
+               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+               placeholder="email@empresta.tech"
+               required>
+      </div>
+      <div>
+        <label for="subject"
+               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Assunto</label>
+        <input type="text"
+               id="subject"
+               class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+               placeholder="Deixe-nos saber como podemos ajudá-lo"
+               required>
+      </div>
+      <div class="sm:col-span-2">
+        <label for="message"
+               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sua mensagem</label>
+        <textarea id="message"
+                  rows="6"
+                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Deixe um comentário..."></textarea>
+      </div>
+      <button type="submit"
+              class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Enviar
+        mensagem</button>
+    </form>
+  </div>
+</section>

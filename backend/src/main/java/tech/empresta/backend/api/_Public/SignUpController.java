@@ -6,9 +6,12 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.empresta.backend.response.Response;
 import tech.empresta.backend.signup.SignUpRequest;
 import tech.empresta.backend.signup.SignUpService;
+
+import java.net.URI;
 
 /**
  * @author Hilbert Digenio ON 14/08/2022
@@ -24,9 +27,15 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request){
+    public ResponseEntity<Response<String>> signUp(@RequestBody SignUpRequest request){
 
-        return new ResponseEntity<>(signUpService.register(request),HttpStatus.ACCEPTED);
+        Response<String> response = new Response<>();
+
+        response.setData(signUpService.register(request));
+
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/signup").toUriString());
+
+        return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping(path = "/confirm")

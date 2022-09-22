@@ -3,16 +3,20 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { BeforeRegisterService } from './../../services/before-register.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
-import { ThisReceiver } from '@angular/compiler';
+import { Subscription } from 'rxjs';
+import { ModalService } from '../../services/modal.service';
+import IUser from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css']
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit, OnDestroy {
 
   requestSent: boolean = false;
+
+  saveUser: IUser | undefined
 
   // colors
   red = 'rgb(248 113 113)'
@@ -27,6 +31,7 @@ export class AddressComponent implements OnInit {
   alertMsg = 'Please wait! Your account is being created'
   alertColor = this.blue
   // --- alert properties ---
+
   address: IAddress = {
     zip_code: '',
     state: '',
@@ -74,15 +79,23 @@ export class AddressComponent implements OnInit {
     area: this.area
   })
 
+  readonly subscriptions = new Subscription()
+
   constructor(
     public beforeRegister: BeforeRegisterService,
-    private user: UserService){
+    private user: UserService,
+    public modal: ModalService) {
+  }
+  ngOnDestroy(): void {
+    this.modal.unregister('auth')
+    this.subscriptions.unsubscribe()
   }
 
   ngOnInit(): void {
   }
 
-  register($event: Event): void{
+  register($event: Event): void {
+
     $event.preventDefault()
 
     this.showAlert = true
@@ -91,22 +104,29 @@ export class AddressComponent implements OnInit {
     this.inSubmission = true
     this.requestSent = true
 
+    this.saveUser = this.beforeRegister.getUser()
+    this.saveUser.address = this.registerForm.value
 
-    const subscription = this.user.saveUser(this.beforeRegister.getUser()).subscribe({
-      next: (user) => {
-        this.alertMsg = 'Sucesso! Enviamos um email de confirmação. Cheque seu email.'
+    const subscription = this.user.saveUser(this.saveUser).subscribe({
+      next: (value) => {
+        console.log('saved with success', value)
+        this.alertMsg = 'Sucesso! Enviamos um email de confirmação.'
         this.alertColor = this.green
+        this.subscriptions.add(subscription)
       },
       error: (err) => {
-        this.alertMsg = 'Um erro inesperado aconteceu. Tente novamente mais tarde.'
+        this.alertMsg = 'Algo deu errado. Tente novamente mais tarde.'
         this.alertColor = this.red
         this.inSubmission = false
+        this.requestSent = false
         console.log(err)
-      }
+        this.subscriptions.add(subscription)
+      },
     })
+
   }
 
-  back($event: Event): void{
+  back($event: Event): void {
     $event.preventDefault()
     this.beforeRegister.toggleAddress(this.registerForm.value)
     this.inSubmission = false

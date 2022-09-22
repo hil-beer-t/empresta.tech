@@ -1,66 +1,64 @@
-<app-alert *ngIf="showAlert" [color]="alertColor">
+<app-alert *ngIf="showAlert"
+           [color]="alertColor">
   {{ alertMsg }}
 </app-alert>
 
-<form
-  [ngClass]="{ hidden: !beforeRegister.isAddressVisible() }"
-  [formGroup]="registerForm"
-  (ngSubmit)="register($event)"
->
+<form [ngClass]="{ hidden: !beforeRegister.isAddressVisible() }"
+      [formGroup]="registerForm"
+      (ngSubmit)="register($event)">
   <!-- cep -->
   <div class="mb-3">
     <label class="inline-block mb-2">Cep</label>
-    <app-input
-      [control]="zip_code"
-      format="00000-000"
-      placeholder="00000-000"
-    ></app-input>
+    <app-input [control]="zip_code"
+               format="00000-000"
+               placeholder="00000-000"></app-input>
   </div>
 
   <!-- estado -->
   <div class="mb-3">
     <label class="inline-block mb-2">Estado</label>
-    <app-input [control]="state" placeholder="SP"></app-input>
+    <app-input [control]="state"
+               placeholder="SP"></app-input>
   </div>
 
   <!-- cidade -->
   <div class="mb-3">
     <label class="inline-block mb-2">Cidade</label>
-    <app-input [control]="city" placeholder="São Paulo"></app-input>
+    <app-input [control]="city"
+               placeholder="São Paulo"></app-input>
   </div>
 
   <!-- bairro -->
   <div class="mb-3">
     <label class="inline-block mb-2"> Bairro </label>
-    <app-input [control]="area" placeholder="Jardim Paulista"></app-input>
+    <app-input [control]="area"
+               placeholder="Jardim Paulista"></app-input>
   </div>
 
   <!-- linha 1 endereço -->
   <div class="mb-3">
     <label class="inline-block mb-2">Linha 1 do endereço</label>
-    <app-input [control]="street" placeholder="Av. Nove de Julho"></app-input>
+    <app-input [control]="street"
+               placeholder="Av. Nove de Julho"></app-input>
   </div>
 
   <!-- numero -->
   <div class="mb-3">
     <label class="inline-block mb-2">Número</label>
-    <app-input [control]="number" placeholder="1234"></app-input>
+    <app-input [control]="number"
+               placeholder="1234"></app-input>
   </div>
 
   <div class="flex flex-wrap">
-    <button
-      type="submit"
-      class="block mb-3 w-full bg-[#F57C00] text-white py-1.5 px-3 rounded transition hover:bg-[#faab5a] disabled:opacity-50 disabled:bg-[#F57C00]"
-      [disabled]="registerForm.invalid || inSubmission"
-    >
+    <button type="submit"
+            class="block mb-3 w-full bg-[#F57C00] text-white py-1.5 px-3 rounded transition hover:bg-[#faab5a] disabled:opacity-50 disabled:bg-[#F57C00]"
+            [disabled]="registerForm.invalid || inSubmission">
       Registrar
     </button>
 
-    <button
-      (click)="back($event)"
-      [disabled]="requestSent"
-      class="block w-full bg-[#1A73E8] text-white py-1.5 px-3 rounded transition disabled:opacity-50 disabled:bg-[#4485db] hover:bg-[#4485db]"
-    >
+    <button (click)="back($event)"
+            [disabled]="requestSent"
+            class="block w-full bg-[#1A73E8] text-white py-1.5 px-3 rounded transition disabled:opacity-50 disabled:bg-[#4485db] hover:bg-[#4485db]">
       Voltar
     </button>
   </div>

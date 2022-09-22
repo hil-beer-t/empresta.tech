@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.empresta.backend.address.Address;
 import tech.empresta.backend.role.Role;
 
 import javax.persistence.*;
@@ -77,6 +78,10 @@ public class User implements UserDetails {
     //        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "roles_id"))
     private Collection<Role> roles = new ArrayList<>();
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         this.getRoles().forEach(role -> {
@@ -120,7 +125,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(String alias, String cpf, String phoneNumber, Long income, String name, String email, String password, Collection<Role> roles) {
+    public User(String alias, String cpf, String phoneNumber, Long income, String name, String email, String password, Collection<Role> roles, Address address) {
         this.alias = alias;
         this.cpf = cpf;
         this.phoneNumber = phoneNumber;
@@ -129,5 +134,6 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.address = address;
     }
 }

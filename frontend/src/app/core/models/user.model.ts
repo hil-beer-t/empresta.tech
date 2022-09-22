@@ -1,3 +1,5 @@
+import IAddress from "./address.model"
+
 export default interface IUser {
   alias?: string,
   cpf: string,
@@ -6,4 +8,5 @@ export default interface IUser {
   name: string,
   email: string,
   password?: string,
+  address?: IAddress
 }

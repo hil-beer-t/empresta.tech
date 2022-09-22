@@ -1,0 +1,44 @@
+.loan {
+  background-color: var(--gray);
+}
+
+h1 {
+  color: var(--white-text);
+}
+
+a, dt, label, button {
+  color: var(--white-text);
+  transition: 200ms ease
+}
+
+button:hover {
+  color: var(--blue);
+}
+
+h2 {
+  color: var(--blue);
+}
+
+
+h3 {
+  color: var(--white);
+}
+
+@keyframes fly {
+  from {
+    transform: translate(0,  0px);
+  }
+  50% {
+    transform: translate(-5px, -5px);
+  }
+  to {
+    transform: translate(0, 0px);
+  }
+}
+
+.bunny-wrapper {
+  width: 100%;
+  animation: fly 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+

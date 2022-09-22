@@ -11,6 +11,7 @@ import { AddressComponent } from './components/address/address.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { RouterModule } from '@angular/router';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     AddressComponent,
     NotFoundComponent,
     HomeComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -31,10 +33,10 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [
     NavComponent,
+    FooterComponent,
     AuthModalComponent,
     NotFoundComponent,
     HomeComponent,
-
   ]
 })
 export class PublicModule { }

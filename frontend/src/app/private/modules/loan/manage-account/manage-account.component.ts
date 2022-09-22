@@ -16,7 +16,15 @@ export class ManageAccountComponent implements OnInit, OnDestroy {
     phoneNumber: '',
     income: 0,
     name: '',
-    email: ''
+    email: '',
+    address: {
+      zip_code: '',
+      state: '',
+      city: '',
+      street: '',
+      number: '',
+      area: ''
+    }
   }
 
   readonly subscriptions = new Subscription()

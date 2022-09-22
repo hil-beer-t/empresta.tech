@@ -53,7 +53,8 @@ public class SignUpService {
                         request.getName(),
                         request.getEmail(),
                         request.getPassword(),
-                        roles
+                        roles,
+                        request.getAddress()
                 )
         );
 

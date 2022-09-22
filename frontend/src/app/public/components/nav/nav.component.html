@@ -1,40 +1,47 @@
 <header class="theme-app">
   <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-    <a class="flex font-medium font-['Poppins'] items-center mb-4 md:mb-0">
-      <span class="ml-3 text-xl">Empresta.tech</span>
+    <a href="#"
+       class="mb-3 md:mb-0 lg:mb-0 flex justify-center items-center text-2xl font-semibold">
+
+      Empresta.tech
     </a>
+
     <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
       <ng-template #authLinks>
-        <a class="cursor-pointer mr-5"
+        <a class="cursor-pointer mr-2 md:mr-5 lg:mr-5"
            routerLink="/manage"
            routerLinkActive="font-semibold"
            [routerLinkActiveOptions]="{ exact: true }">Meus empréstimos</a>
-        <a class="cursor-pointer mr-5"
+        <a class="cursor-pointer mr-2 md:mr-5 lg:mr-5"
            routerLink="/manage-account"
            routerLinkActive="font-semibold"
            [routerLinkActiveOptions]="{ exact: true }">Minha conta</a>
         <a (click)="auth.logout($event)"
-           class="cursor-pointer mr-5">Sair</a>
+           class="cursor-pointer mr-2 md:mr-5 lg:mr-5">Sair</a>
       </ng-template>
-      <a class="cursor-pointer mr-5">Sobre</a>
       <a *ngIf="!showAnchors; else authLinks"
          (click)="openModal($event)"
-         class="cursor-pointer mr-5">
+         class="cursor-pointer mr-0 hover:opacity-75">
         Login/Registrar
       </a>
     </nav>
-    <button (click)="toggleTheme($event)"
-            class="inline-flex items-center border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
-      Theme
-      <svg fill="none"
-           stroke="currentColor"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           stroke-width="2"
-           class="w-4 h-4 ml-1"
-           viewBox="0 0 24 24">
-        <path d="M5 12h14M12 5l7 7-7 7"></path>
-      </svg>
+
+
+
+    <button class="inline-flex items-center border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
+
+      <label for="default-toggle"
+             class="inline-flex relative items-center cursor-pointer">
+        <input type="checkbox"
+               value=""
+               id="default-toggle"
+               class="sr-only peer"
+               (click)="toggleTheme($event)">
+        <div
+             class="w-11 h-6 bg-[#F57C00] peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-white-300 dark:peer-focus:ring-white-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gray-300">
+        </div>
+
+      </label>
     </button>
   </div>
 </header>

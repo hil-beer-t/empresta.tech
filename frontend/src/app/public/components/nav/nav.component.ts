@@ -30,7 +30,6 @@ export class NavComponent implements OnInit {
   }
 
   toggleTheme($event: Event) {
-    $event.preventDefault()
     const active = this.themeService.getActiveTheme();
     if (active.name === 'light') {
       this.themeService.setTheme('dark');

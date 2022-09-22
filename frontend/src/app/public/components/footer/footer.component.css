@@ -1,0 +1,16 @@
+.loan {
+  background-color: var(--white);
+}
+
+p {
+  color: var(--background);
+}
+
+span {
+  color: var(--blue);
+
+}
+
+a {
+  color: var(--background);
+}
