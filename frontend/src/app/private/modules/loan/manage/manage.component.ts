@@ -55,4 +55,10 @@ export class ManageComponent implements OnInit, OnDestroy {
     this.router.navigate([`/loan-detail/${loanCod}`]);
   }
 
+
+  redirectToAbout($event: Event) {
+    $event.preventDefault()
+    this.router.navigate([`/about`])
+  }
+
 }

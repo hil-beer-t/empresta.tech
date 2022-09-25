@@ -1,4 +1,4 @@
-import { LoanGuard } from './private/modules/loan/guards/loan.guard';
+import { AboutComponent } from './public/components/about/about.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,6 +7,7 @@ import { NotFoundComponent } from './public/components/not-found/not-found.compo
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
   {
     path: '',
     loadChildren: async () => (await import('./private/modules/loan/loan.module')).LoanModule,

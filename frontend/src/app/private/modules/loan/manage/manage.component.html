@@ -430,7 +430,8 @@
               <span class="title-font font-medium">empréstimo</span>
             </span>
           </button>
-          <button class="bg-gray-100 inline-flex py-3 px-5 rounded-lg
+          <button (click)="redirectToAbout($event)"
+                  class="bg-gray-100 inline-flex py-3 px-5 rounded-lg
             items-center
             hover:bg-gray-200 focus:outline-none">
             <i class="material-icons">read_more</i>
@@ -444,6 +445,5 @@
     </div>
   </div>
 </ng-template>
-
 
 <app-loan-create></app-loan-create>
