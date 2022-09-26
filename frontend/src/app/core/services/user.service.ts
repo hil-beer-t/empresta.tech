@@ -5,11 +5,14 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import IToken from '../models/token.model';
 import jwtDecode from 'jwt-decode';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+
+  private apiUrl = environment.apiUrl
 
   token: string = ''
   decodedToken: IToken = {
@@ -24,7 +27,7 @@ export class UserService {
   }
 
   saveUser(user: IUser): Observable<any> {
-    return this.http.post<any>(`http://localhost:8080/signup`, user);
+    return this.http.post<any>(`${this.apiUrl}/signup`, user);
   }
 
   getUserByEmail(email: string): Observable<IResponse<IUser>> {
@@ -33,7 +36,7 @@ export class UserService {
       'Bearer ' + localStorage.getItem('access_token')
     )
     return this.http.get<IResponse<IUser>>(
-      `http://localhost:8080/v1/private/user/username/${email}`,
+      `${this.apiUrl}/v1/private/user/username/${email}`,
       { headers: headers }
     )
   }
@@ -46,7 +49,7 @@ export class UserService {
 
   checkEmailIsNotTaken(email: string) {
     return this.http.head<any>(
-      `http://localhost:8080/v1/private/email/${email}/check`
+      `${this.apiUrl}/v1/private/email/${email}/check`
     );
   }
 

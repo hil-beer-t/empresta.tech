@@ -4,11 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import ILoan from '../models/loan.model';
 import { FormGroup } from '@angular/forms';
 import { IResponse } from '../models/response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
+
+  private apiUrl = environment.apiUrl
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +20,7 @@ export class LoanService {
       'Authorization',
       'Bearer ' + localStorage.getItem('access_token')
     )
-    return this.http.post<any>(`http://localhost:8080/v1/private/create/loan/${userId}`, loan, {
+    return this.http.post<any>(`${this.apiUrl}/v1/private/create/loan/${userId}`, loan, {
       headers: headers,
     });
   }
@@ -28,7 +31,7 @@ export class LoanService {
       'Bearer ' + localStorage.getItem('access_token')
     )
     return this.http.get<IResponse<ILoan[]>>(
-      `http://localhost:8080/v1/private/loan/${email}`,
+      `${this.apiUrl}/v1/private/loan/${email}`,
       { headers: headers }
     )
   }
@@ -39,7 +42,7 @@ export class LoanService {
       'Bearer ' + localStorage.getItem('access_token')
     )
     return this.http.get<IResponse<ILoan>>(
-      `http://localhost:8080/v1/private/loan/cod/${cod}`,
+      `${this.apiUrl}/v1/private/loan/cod/${cod}`,
       { headers: headers }
     )
   }
