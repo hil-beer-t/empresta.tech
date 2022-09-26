@@ -1,9 +1,5 @@
 package tech.empresta.backend.enums;
 
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import tech.empresta.backend.loan.Loan;
-
 /**
  * @author Hilbert Digenio ON 18/08/2022
  * @version 0.0.1-SNAPSHOT

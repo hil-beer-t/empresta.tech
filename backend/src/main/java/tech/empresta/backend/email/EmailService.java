@@ -1,5 +1,6 @@
 package tech.empresta.backend.email;
 
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +17,7 @@ import javax.mail.internet.MimeMessage;
  * @project empresta.tech
  */
 
+@AllArgsConstructor
 @Service
 public class EmailService implements EmailSender{
 
@@ -23,10 +25,6 @@ public class EmailService implements EmailSender{
             .getLogger(EmailService.class);
 
     private final JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
 
     @Override
     @Async

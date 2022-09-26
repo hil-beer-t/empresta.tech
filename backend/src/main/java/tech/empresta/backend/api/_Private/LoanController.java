@@ -2,8 +2,6 @@ package tech.empresta.backend.api._Private;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,7 +18,6 @@ import tech.empresta.backend.utils.GenerateLoanCod;
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,7 +102,7 @@ public class LoanController {
     }
 
     @GetMapping("/loan/{email}")
-    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@PathVariable String email) throws JSONException {
+    public ResponseEntity<Response<List<Loan>>> getLoansByUserEmail(@PathVariable String email) {
 
         Response<List<Loan>> response = new Response<>();
 
@@ -115,7 +112,7 @@ public class LoanController {
     }
 
     @GetMapping("/loan/cod/{cod}")
-    public ResponseEntity<Response<Loan>> getLoansByUserCod(@PathVariable String cod) throws JSONException {
+    public ResponseEntity<Response<Loan>> getLoansByUserCod(@PathVariable String cod) {
 
         Response<Loan> response = new Response<>();
 
@@ -125,7 +122,7 @@ public class LoanController {
     }
 
     @PatchMapping("/change/loan/status/{loanCod}")
-    public ResponseEntity changeStatus(@PathVariable String loanCod, @RequestParam String status) throws JSONException {
+    public ResponseEntity changeStatus(@PathVariable String loanCod, @RequestParam String status) {
 
         log.info(status);
 
