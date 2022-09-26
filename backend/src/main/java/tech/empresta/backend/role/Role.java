@@ -18,18 +18,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_role")
+@Table(name = "tb_app_role")
 public class Role {
     @Id
-    @SequenceGenerator(
-            name = "role_sequence",
-            sequenceName = "role_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "role_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
