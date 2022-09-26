@@ -21,8 +21,15 @@ import javax.persistence.*;
 @Table(name = "tb_role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
-    @SequenceGenerator(name = "role_seq")
+    @SequenceGenerator(
+            name = "role_sequence",
+            sequenceName = "role_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "role_sequence"
+    )
     @Column(name = "id", nullable = false)
     private Long id;
 
