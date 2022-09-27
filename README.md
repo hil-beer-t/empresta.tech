@@ -36,7 +36,7 @@ Revisitar um desafio do início do ano e implementar com uma maior expertise.
 
 ## 💡 O que eu aprendi/melhorei ? <a name = "idea"></a>
 
-- Confirmation email (smtp/sendinblue)
+- Confirmation email (smtp/[sendinblue](https://www.sendinblue.com/))
 - Angular canActivate
 - Spring security (roles)
 - Usar um serviço third-party para autenticação como o Firebase, por exemplo, pode ser mais rápido e seguro do que fazer o seu próprio.
@@ -54,6 +54,7 @@ Revisitar um desafio do início do ano e implementar com uma maior expertise.
 - [Spring](https://spring.io/)
 - PostgreSQL
 - [Angular](https://angular.io/) + [Tailwindcss](https://tailwindcss.com/)
+- SMTP [Sendinblue](https://www.sendinblue.com/)
 - Produção:
   - [Heroku](heroku.com)
   - [Vercel](https://vercel.com)
