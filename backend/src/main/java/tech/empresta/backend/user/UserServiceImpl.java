@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return new ArrayList<>();
     }
+
     // Tells spring how to find the user
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
