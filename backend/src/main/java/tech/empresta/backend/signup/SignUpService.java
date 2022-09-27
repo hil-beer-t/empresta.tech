@@ -59,7 +59,7 @@ public class SignUpService {
         );
 
         // token confirmation endpoint
-        String link = "http://localhost:8080/signup/confirm?token="+token;
+        String link = "https://empresta-tech.herokuapp.com/confirm?token="+token;
 
         emailSender.send(
                 request.getEmail(),
