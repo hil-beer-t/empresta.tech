@@ -94,3 +94,9 @@ create sequence user_sequence start 1 increment 1;
        add constraint FK19t64ocsol5x06fy2cytp7gey 
        foreign key (user_id) 
        references tb_user;
+
+    INSERT INTO tb_app_role(name) VALUES ('ROLE_USER');
+    INSERT INTO tb_app_role(name) VALUES ('ROLE_ADMIN');
+    INSERT INTO tb_app_role(name) VALUES ('ROLE_MANAGER');
+    INSERT INTO tb_app_role(name) VALUES ('ROLE_AUDITOR');
+    INSERT INTO tb_app_role(name) VALUES ('ROLE_CSC');

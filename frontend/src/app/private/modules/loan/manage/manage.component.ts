@@ -1,12 +1,11 @@
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
-import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { ModalService } from 'src/app/public/services/modal.service';
 import ILoan from 'src/app/core/models/loan.model';
 import { TranslateService } from '@ngx-translate/core';
-import IStatus from 'src/app/core/models/status.model';
 
 @Component({
   selector: 'app-manage',
@@ -24,6 +23,7 @@ export class ManageComponent implements OnInit, OnDestroy {
   constructor(public translate: TranslateService, private modalService: ModalService, private loanService: LoanService, private user: UserService, private router: Router) {
     this.translate.use('pt')
   }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe()
   }

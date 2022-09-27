@@ -91,7 +91,7 @@ public class SignUpService {
 
         userService.addRoleToUser(confirmationToken.getUser().getEmail(), "ROLE_USER");
 
-        return "confirmed";
+        return "Successfully confirmed!";
     }
 
     private String buildEmail(String name, String link) {
