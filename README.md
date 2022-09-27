@@ -129,7 +129,7 @@ Dentro da pasta `target`, basta executá-lo com o comando abaixo.
 Executando o Spring
 
 ```bash
-java -jar -Dserver.port=443 caatinga-api-0.0.1-SNAPSHOT.jar
+java -jar -Dserver.port=443 empresta-tech-0.0.1-SNAPSHOT.jar
 ```
 
 ### Frontend
